@@ -18,7 +18,7 @@ import org.gradle.api.JavaVersion.*
  * limitations under the License.
  */
 
-plugins {awdawdaw
+plugins {
     id("io.github.art.project") version "1.0.97"
 }
 
