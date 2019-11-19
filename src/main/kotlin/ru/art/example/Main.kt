@@ -6,7 +6,7 @@ import ru.art.http.server.HttpServer.*
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {
-        useAgileConfigurations()
+        useAgileConfigurations("example")
         startHttpServer().await()
     }
 }
