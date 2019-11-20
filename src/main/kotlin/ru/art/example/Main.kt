@@ -15,31 +15,59 @@ object Main {
         httpGet("${httpServerModule().path}/test")
                 .responseMapper(stringMapper.fromModel)
                 .producesMimeType(textHtmlUtf8())
-                .produce { "<!DOCTYPE html>\n" +
-                        "<html>\n" +
-                        "  <head>\n" +
-                        "    <meta charset=\"UTF-8\" />\n" +
-                        "    <title>Add React in One Minute</title>\n" +
-                        "  </head>\n" +
-                        "  <body>\n" +
-                        "\n" +
-                        "    <h2>Add React in One Minute</h2>\n" +
-                        "    <p>This page demonstrates using React with no build tooling.</p>\n" +
-                        "    <p>React is loaded as a script tag.</p>\n" +
-                        "\n" +
-                        "    <!-- We will put our React component inside this div. -->\n" +
-                        "    <div id=\"like_button_container\"></div>\n" +
-                        "\n" +
-                        "    <!-- Load React. -->\n" +
-                        "    <!-- Note: when deploying, replace \"development.js\" with \"production.min.js\". -->\n" +
-                        "    <script src=\"https://unpkg.com/react@16/umd/react.development.js\" crossorigin></script>\n" +
-                        "    <script src=\"https://unpkg.com/react-dom@16/umd/react-dom.development.js\" crossorigin></script>\n" +
-                        "\n" +
-                        "    <!-- Load our React component. -->\n" +
-                        "    <script src=\"like_button.js\"></script>\n" +
-                        "\n" +
-                        "  </body>\n" +
-                        "</html>" }
+                .produce {
+                    """<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example</title>
+  </head>
+  <body>
+
+    <h2>Add React in One Minute</h2>
+    <p>This page demonstrates using React with no build tooling.</p>
+    <p>React is loaded as a script tag.</p>
+
+    <!-- We will put our React component inside this div. -->
+    <div id="like_button_container"></div>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Load our React component. -->
+    <script>
+        'use strict';
+
+const e = React.createElement;
+
+class LikeButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: false };
+  }
+
+  render() {
+    if (this.state.liked) {
+      return 'You liked this.';
+    }
+
+    return e(
+      'button',
+      { onClick: () => this.setState({ liked: true }) },
+      'Like'
+    );
+  }
+}
+
+const domContainer = document.querySelector('#like_button_container');
+ReactDOM.render(e(LikeButton), domContainer);
+    </script>
+
+  </body>
+</html>"""
+                }
 
         startHttpServer().await()
     }
