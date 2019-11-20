@@ -1,4 +1,5 @@
 import org.gradle.api.JavaVersion.*
+import org.jetbrains.kotlin.gradle.tasks.*
 
 /*
  * ART Java
@@ -54,7 +55,7 @@ art {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     sourceCompatibility = VERSION_11.toString()
     targetCompatibility = VERSION_11.toString()
 
@@ -69,4 +70,8 @@ allprojects {
             this@allprojects.delete("node_modules")
         }
     }
+}
+
+tasks["build"].doLast {
+    file("build/libs/${name}-${version}.jar").renameTo(file("build/libs/${name}.jar"))
 }
