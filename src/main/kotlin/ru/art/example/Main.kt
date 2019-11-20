@@ -11,7 +11,7 @@ object Main {
     fun main(args: Array<String>) {
         useAgileConfigurations("example")
 
-        httpGet(httpServerModule().path)
+        httpGet("${httpServerModule().path}/test")
                 .producesMimeType(textHtmlUtf8())
                 .produce { "<!DOCTYPE html>\n" +
                         "<html>\n" +
