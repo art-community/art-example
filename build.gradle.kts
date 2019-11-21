@@ -71,7 +71,3 @@ allprojects {
         }
     }
 }
-
-tasks["build"].doLast {
-    file("build/libs/${name}-${version}.jar").renameTo(file("build/libs/${name}.jar"))
-}
