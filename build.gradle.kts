@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
  */
 
 plugins {
-    id("io.github.art.project") version "1.0.97"
+    id("io.github.art.project") version "1.0.98"
 }
 
 tasks.withType(Wrapper::class.java) {
@@ -61,13 +61,5 @@ tasks.withType<KotlinCompile> {
 
     kotlinOptions {
         jvmTarget = VERSION_11.toString()
-    }
-}
-
-allprojects {
-    afterConfiguring {
-        run {
-            this@allprojects.delete("node_modules")
-        }
     }
 }

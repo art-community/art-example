@@ -15,7 +15,7 @@ object Main {
         httpGet("${httpServerModule().path}/test")
                 .responseMapper(stringMapper.fromModel)
                 .producesMimeType(textHtmlUtf8())
-                .produce {"<h1>Hello, wolrd!</h1>"}
+                .produce {"<h1>Hello, world!</h1>"}
 
         startHttpServer().await()
     }
