@@ -1,0 +1,30 @@
+all: stop clean start enter
+
+start:
+	rm -rf ./art
+	tarantoolctl start storage_1_a
+	tarantoolctl start storage_1_b
+	tarantoolctl start storage_2_a
+	tarantoolctl start storage_2_b
+	tarantoolctl start router_1
+	tarantoolctl start router_2
+	@echo "Waiting cluster to start"
+	@sleep 1
+stop:
+	tarantoolctl stop storage_1_a
+	tarantoolctl stop storage_1_b
+	tarantoolctl stop storage_2_a
+	tarantoolctl stop storage_2_b
+	tarantoolctl stop router_1
+	tarantoolctl stop router_2
+
+enter:
+	tarantoolctl enter storage_1_a
+
+logcat:
+	tail -f data/*.log
+
+clean:
+	rm -rf data/
+
+.PHONY: console test deploy clean
