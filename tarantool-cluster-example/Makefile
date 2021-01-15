@@ -1,7 +1,6 @@
 all: stop clean start enter
 
 start:
-	rm -rf ./art
 	tarantoolctl start storage_1_a
 	tarantoolctl start storage_1_b
 	tarantoolctl start storage_2_a
