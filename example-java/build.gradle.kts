@@ -21,6 +21,9 @@ dependencies {
     implementation("io.art.java:message-pack")
     implementation("io.art.java:yaml")
     implementation("io.art.java:graal")
+    implementation("io.art.java:http")
+    implementation("io.art.java:tarantool")
+    implementation("io.art.java:storage")
 
     compileOnly("org.projectlombok", "lombok", lombokVersion)
     annotationProcessor("io.art.generator:language-java")
