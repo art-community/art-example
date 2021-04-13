@@ -42,12 +42,12 @@ public class ExampleHttp {
                                                 .logging(true))
                                         .websocket("wsFlux")
                                         .exceptions(e -> e
-                                                .mapException(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
-                                                .mapException(IllegalStateException.class, exception -> {
+                                                .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
+                                                .on(IllegalStateException.class, exception -> {
                                                     httpContext().status(405);
                                                     return httpResponse(exception.getMessage());
                                                 })
-                                                .mapException(Throwable.class, HttpResponseStatus.CONFLICT)
+                                                .on(Throwable.class, HttpResponseStatus.CONFLICT)
                                         )
                                 )
                         )
