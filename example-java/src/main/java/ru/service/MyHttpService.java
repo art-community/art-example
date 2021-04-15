@@ -18,7 +18,7 @@ public class MyHttpService {
     }
 
     public HttpResponse method2(HttpResponse request){
-        logger.info("method1");
+        logger.info("method2");
         httpContext()
                 .status(201)
                 .header("header1", "value1");
@@ -28,6 +28,7 @@ public class MyHttpService {
     @SneakyThrows
     public HttpResponse exampleException(){
         logger.info("exampleException");
+        httpContext().status(201);
         throw new HttpExampleException("exampleException");
     }
 
