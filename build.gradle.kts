@@ -1,3 +1,7 @@
+plugins {
+    id("art-internal-jvm") version "main"
+}
+
 group = "io.art.example"
 
 tasks.withType(type = Wrapper::class) {
@@ -11,5 +15,6 @@ allprojects {
 }
 
 project(":example-java") {
+    group = rootProject.group
     apply(plugin = "java-library")
 }
