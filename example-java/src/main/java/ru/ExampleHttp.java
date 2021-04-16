@@ -41,8 +41,8 @@ public class ExampleHttp {
                                         .websocket("websocket", method -> method
                                                 .logging(true))
                                         .websocket("wsFlux")
-                                        .file("file", "C:" + File.separator + "halt.txt")
-                                        .directory("dir", "C:" + File.separator)
+                                        .file("file", "C:" + File.separator + "example.txt")
+                                        .directory("directory", "C:" + File.separator)
                                 )
                                 .exceptions(e -> e
                                         .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
