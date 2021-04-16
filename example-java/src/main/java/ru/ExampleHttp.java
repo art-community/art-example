@@ -26,21 +26,23 @@ public class ExampleHttp {
         return module(ExampleHttp.class)
                 .serve(server -> server
                         .http(http -> http
-                                .port(8080)
+                                .port(80)
                                 .host("0.0.0.0")
                                 .logging(false)
                                 .wiretap(false)
                                 .accessLogging(false)
                                 .defaultDataFormat(JSON)
                                 .defaultMetaDataFormat(JSON)
-                                .route("/my-http-service", MyHttpService.class, route->route
+                                .route("/", MyHttpService.class, route->route
                                         .get("method1", method -> method
-                                                .pathName("{id}/1"))
+                                                .path("{id}/1"))
                                         .post("method2", method -> method
-                                                .pathName("2"))
+                                                .path("2"))
                                         .websocket("websocket", method -> method
                                                 .logging(true))
                                         .websocket("wsFlux")
+                                        .file("file", "C:" + File.separator + "halt.txt")
+                                        .directory("dir", "C:" + File.separator)
                                         .exceptions(e -> e
                                                 .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
                                                 .on(IllegalStateException.class, exception -> {
