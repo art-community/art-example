@@ -43,14 +43,14 @@ public class ExampleHttp {
                                         .websocket("wsFlux")
                                         .file("file", "C:" + File.separator + "halt.txt")
                                         .directory("dir", "C:" + File.separator)
-                                        .exceptions(e -> e
-                                                .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
-                                                .on(IllegalStateException.class, exception -> {
-                                                    httpContext().status(405);
-                                                    return httpResponse(exception.getMessage());
-                                                })
-                                                .on(Throwable.class, HttpResponseStatus.CONFLICT)
-                                        )
+                                )
+                                .exceptions(e -> e
+                                        .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
+                                        .on(IllegalStateException.class, exception -> {
+                                            httpContext().status(405);
+                                            return httpResponse(exception.getMessage());
+                                        })
+                                        .on(Throwable.class, HttpResponseStatus.CONFLICT)
                                 )
                         )
                 ); 
