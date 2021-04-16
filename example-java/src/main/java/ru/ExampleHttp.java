@@ -3,6 +3,7 @@ package ru;
 import io.art.model.annotation.*;
 import io.art.model.configurator.*;
 import io.netty.handler.codec.http.*;
+import reactor.netty.http.*;
 import ru.model.*;
 import ru.service.*;
 
@@ -26,13 +27,12 @@ public class ExampleHttp {
         return module(ExampleHttp.class)
                 .serve(server -> server
                         .http(http -> http
-                                .port(80)
                                 .host("0.0.0.0")
+                                .protocol(HttpProtocol.HTTP11)
                                 .logging(false)
                                 .wiretap(false)
                                 .accessLogging(false)
                                 .defaultDataFormat(JSON)
-                                .defaultMetaDataFormat(JSON)
                                 .route("/", MyHttpService.class, route->route
                                         .get("method1", method -> method
                                                 .path("{id}/1"))
