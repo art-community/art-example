@@ -3,6 +3,7 @@ package ru;
 import io.art.model.annotation.*;
 import io.art.model.configurator.*;
 import io.netty.handler.codec.http.*;
+import reactor.netty.http.*;
 import ru.model.*;
 import ru.service.*;
 
@@ -26,29 +27,30 @@ public class ExampleHttp {
         return module(ExampleHttp.class)
                 .serve(server -> server
                         .http(http -> http
-                                .port(8080)
                                 .host("0.0.0.0")
+                                .protocol(HttpProtocol.HTTP11)
                                 .logging(false)
                                 .wiretap(false)
                                 .accessLogging(false)
                                 .defaultDataFormat(JSON)
-                                .defaultMetaDataFormat(JSON)
-                                .route("/my-http-service", MyHttpService.class, route->route
+                                .route("/", MyHttpService.class, route->route
                                         .get("method1", method -> method
-                                                .pathName("{id}/1"))
+                                                .path("{id}/1"))
                                         .post("method2", method -> method
-                                                .pathName("2"))
+                                                .path("2"))
                                         .websocket("websocket", method -> method
                                                 .logging(true))
                                         .websocket("wsFlux")
-                                        .exceptions(e -> e
-                                                .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
-                                                .on(IllegalStateException.class, exception -> {
-                                                    httpContext().status(405);
-                                                    return httpResponse(exception.getMessage());
-                                                })
-                                                .on(Throwable.class, HttpResponseStatus.CONFLICT)
-                                        )
+                                        .file("file", "C:" + File.separator + "example.txt")
+                                        .directory("directory", "C:" + File.separator)
+                                )
+                                .exceptions(e -> e
+                                        .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
+                                        .on(IllegalStateException.class, exception -> {
+                                            httpContext().status(405);
+                                            return httpResponse(exception.getMessage());
+                                        })
+                                        .on(Throwable.class, HttpResponseStatus.CONFLICT)
                                 )
                         )
                 ); 
