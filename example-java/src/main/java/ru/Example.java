@@ -35,7 +35,7 @@ public class Example {
                     Request request = Request.builder().build();
                     Mono<Request> mono = Mono.just(request);
                     Flux<Request> flux = Flux.just(request);
-                    communicator.myMethod1();
+                    communicator.myMethod6(request);
 //                    communicator.myMethod1();
 //                    communicator.myMethod1();
 //                    communicator.myMethod2(request);
