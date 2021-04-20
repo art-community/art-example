@@ -4,7 +4,6 @@ import lombok.*;
 import org.apache.logging.log4j.core.*;
 import reactor.core.publisher.*;
 import ru.model.*;
-
 import static io.art.http.module.HttpModule.*;
 import static io.art.logging.LoggingModule.*;
 
@@ -14,7 +13,8 @@ public class MyHttpService {
 
     public HttpResponse method1(){
         logger.info("method1");
-        return new HttpResponse("method1 ok");
+        Integer id = httpContext().getPathParams().get("id").getInt();
+        return new HttpResponse("method1 ok. Id path parameter is " + id);
     }
 
     public HttpResponse method2(HttpResponse request){
@@ -23,6 +23,12 @@ public class MyHttpService {
                 .status(201)
                 .header("header1", "value1");
         return new HttpResponse("method2 ok. Request was: " + request.getMessage());
+    }
+
+    public HttpResponse redirect(){
+        logger.info("redirectMethod");
+        httpContext().redirect("/file");
+        return new HttpResponse("redirect");
     }
 
     @SneakyThrows
