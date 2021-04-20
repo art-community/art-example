@@ -2,6 +2,7 @@ package ru;
 
 import io.art.model.annotation.*;
 import io.art.model.configurator.*;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import java.io.*;
 import reactor.netty.http.*;
@@ -27,12 +28,15 @@ public class ExampleHttp {
                 .serve(server -> server
                         .http(http -> http
                                 .host("0.0.0.0")
-                                .protocol(HttpProtocol.HTTP11)
+                                .protocol(HttpProtocol.H2)
+                                .redirectToHttps(true)
                                 .logging(false)
                                 .wiretap(false)
                                 .accessLogging(true)
                                 .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
                                 .defaultDataFormat(JSON)
+                                .tcpOption(ChannelOption.SO_KEEPALIVE, true)
+//                                .ssl(new File("C:" + File.separator + "selfsigned.crt"), new File("C:" + File.separator + "selfsigned.key"))
 
                                 .route("", MyHttpService.class, route->route
                                         .get("method1", method -> method
