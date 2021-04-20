@@ -33,7 +33,7 @@ public class ExampleHttp {
                                 .wiretap(false)
                                 .accessLogging(false)
                                 .defaultDataFormat(JSON)
-                                .route("/", MyHttpService.class, route->route
+                                .route("", MyHttpService.class, route->route
                                         .get("method1", method -> method
                                                 .path("{id}/1"))
                                         .post("method2", method -> method
@@ -42,7 +42,8 @@ public class ExampleHttp {
                                                 .logging(true))
                                         .websocket("wsFlux")
                                         .file("file", "C:" + File.separator + "example.txt")
-                                        .directory("directory", "C:" + File.separator)
+                                        .directory("directory", "C:", "index.html")
+
                                 )
                                 .exceptions(e -> e
                                         .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
