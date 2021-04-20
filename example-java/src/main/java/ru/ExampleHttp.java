@@ -3,12 +3,11 @@ package ru;
 import io.art.model.annotation.*;
 import io.art.model.configurator.*;
 import io.netty.handler.codec.http.*;
+import java.io.*;
 import reactor.netty.http.*;
+import reactor.netty.http.server.logging.*;
 import ru.model.*;
 import ru.service.*;
-
-import java.io.*;
-
 import static io.art.http.module.HttpModule.*;
 import static io.art.launcher.ModuleLauncher.*;
 import static io.art.model.configurator.ModuleModelConfigurator.*;
@@ -31,7 +30,8 @@ public class ExampleHttp {
                                 .protocol(HttpProtocol.HTTP11)
                                 .logging(false)
                                 .wiretap(false)
-                                .accessLogging(false)
+                                .accessLogging(true)
+                                .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
                                 .defaultDataFormat(JSON)
                                 .route("", MyHttpService.class, route->route
                                         .get("method1", method -> method
