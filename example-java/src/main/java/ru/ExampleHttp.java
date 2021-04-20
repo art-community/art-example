@@ -33,6 +33,7 @@ public class ExampleHttp {
                                 .accessLogging(true)
                                 .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
                                 .defaultDataFormat(JSON)
+
                                 .route("", MyHttpService.class, route->route
                                         .get("method1", method -> method
                                                 .path("{id}/1"))
@@ -45,14 +46,13 @@ public class ExampleHttp {
                                         .directory("directory", "C:", "index.html")
 
                                 )
-                                .exceptions(e -> e
-                                        .on(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
-                                        .on(IllegalStateException.class, exception -> {
-                                            httpContext().status(405);
-                                            return httpResponse(exception.getMessage());
-                                        })
-                                        .on(Throwable.class, HttpResponseStatus.CONFLICT)
-                                )
+
+                                .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
+                                .exception(IllegalStateException.class, exception -> {
+                                    httpContext().status(405);
+                                    return httpResponse(exception.getMessage());
+                                })
+                                .exception(Throwable.class, HttpResponseStatus.CONFLICT)
                         )
                 ); 
     }
