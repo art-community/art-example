@@ -5,7 +5,6 @@ import io.art.model.configurator.*;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import java.io.*;
-import reactor.netty.http.*;
 import reactor.netty.http.server.logging.*;
 import ru.model.*;
 import ru.service.*;
@@ -28,15 +27,12 @@ public class ExampleHttp {
                 .serve(server -> server
                         .http(http -> http
                                 .host("0.0.0.0")
-                                .protocol(HttpProtocol.H2)
-                                .redirectToHttps(true)
                                 .logging(false)
                                 .wiretap(false)
                                 .accessLogging(true)
                                 .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
                                 .defaultDataFormat(JSON)
                                 .tcpOption(ChannelOption.SO_KEEPALIVE, true)
-//                                .ssl(new File("C:" + File.separator + "selfsigned.crt"), new File("C:" + File.separator + "selfsigned.key"))
 
                                 .route("", MyHttpService.class, route->route
                                         .get("method1", method -> method
@@ -49,6 +45,11 @@ public class ExampleHttp {
                                         .file("file", "C:" + File.separator + "example.txt")
                                         .directory("directory", "C:", "index.html")
 
+                                )
+
+                                .authentication(auth -> auth
+                                        .basicHttp("/{id}/1", MyHttpAuthenticator::check, "method 1")
+                                        .orElseAllow()
                                 )
 
                                 .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
