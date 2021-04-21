@@ -6,6 +6,8 @@ import reactor.core.publisher.*;
 import ru.model.*;
 import static io.art.http.module.HttpModule.*;
 import static io.art.logging.LoggingModule.*;
+import static java.util.Objects.*;
+import static ru.model.HttpResponse.*;
 
 
 public class MyHttpService {
@@ -22,7 +24,7 @@ public class MyHttpService {
         httpContext()
                 .status(201)
                 .header("header1", "value1");
-        return new HttpResponse("method2 ok. Request was: " + request.getMessage());
+        return httpResponse("method2 ok. Request was: " + (isNull(request) ? "null" : request.getMessage()));
     }
 
     public HttpResponse redirect(){
@@ -52,7 +54,7 @@ public class MyHttpService {
 
     public HttpResponse websocket(HttpResponse req){
         logger.info("websocket");
-        return req;
+        return isNull(req) ? httpResponse("null") : req;
     }
 
     public Flux<HttpResponse> wsFlux(Flux<HttpResponse> req){
