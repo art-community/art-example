@@ -26,6 +26,5 @@ dependencies {
     implementation("io.art.java:storage:main")
 
     compileOnly("org.projectlombok", "lombok", lombokVersion)
-    annotationProcessor("io.art.generator:language-java:main")
     annotationProcessor("org.projectlombok", "lombok", lombokVersion)
 }
