@@ -1,4 +1,4 @@
-name: ART Example Publish
+name: ART Example Main
 on:
   push:
     branches:
