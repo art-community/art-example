@@ -26,9 +26,8 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            when (requested.id.id) {
-                "art-internal-jvm" -> useModule("io.art.gradle:art-gradle:main")
-                "java-generator" -> useModule("io.art.gradle:art-gradle:main")
+            if (requested.id.id.contains("art")) {
+                useModule("io.art.gradle:art-gradle:main")
             }
         }
     }
