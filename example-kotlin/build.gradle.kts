@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("kapt")
-    id("kotlin-generator")
+    id("art-kotlin-generator")
 }
 
 dependencies {
