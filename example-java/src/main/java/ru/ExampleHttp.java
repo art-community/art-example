@@ -49,6 +49,7 @@ public class ExampleHttp {
 
                                 .authentication(auth -> auth
                                         .basicHttp("/{id}/1", MyHttpAuthenticator::check, "method 1")
+                                        .basicHttp("/file", MyHttpAuthenticator::check, "file")
                                         .orElseAllow()
                                 )
 
