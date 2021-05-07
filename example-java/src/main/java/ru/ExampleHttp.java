@@ -2,7 +2,6 @@ package ru;
 
 import io.art.model.annotation.*;
 import io.art.model.configurator.*;
-import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import java.io.*;
 import reactor.netty.http.server.logging.*;
@@ -25,33 +24,32 @@ public class ExampleHttp {
     public static ModuleModelConfigurator configure() {
         return module(ExampleHttp.class)
                 .serve(server -> server
-                        .http(http -> http
-                                .host("0.0.0.0")
-                                .logging(false)
-                                .wiretap(false)
-                                .accessLogging(true)
-                                .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
-                                .defaultDataFormat(JSON)
-                                .tcpOption(ChannelOption.SO_KEEPALIVE, true)
+                                .http(http -> http
+                                        .host("0.0.0.0")
+                                        .logging(false)
+                                        .wiretap(false)
+                                        .accessLogging(true)
+                                        .accessLogFormat(request -> AccessLog.create("Access Log: method={}, uri={}", request.method(), request.uri()))
+                                        .defaultDataFormat(JSON)
 
-                                .route("", MyHttpService.class, route->route
-                                        .get("method1", method -> method
-                                                .path("{id}/1"))
-                                        .post("method2", method -> method
-                                                .path("2"))
-                                        .websocket("websocket", method -> method
-                                                .logging(true))
-                                        .websocket("wsFlux")
-                                        .file("file", "C:" + File.separator + "example.txt")
-                                        .directory("directory", "C:", "index.html")
+                                        .route("", MyHttpService.class, route->route
+                                                .get("method1", method -> method
+                                                        .path("{id}/1"))
+                                                .post("method2", method -> method
+                                                        .path("2"))
+                                                .websocket("websocket", method -> method
+                                                        .logging(true))
+                                                .websocket("wsFlux")
+                                                .file("file", "C:" + File.separator + "example.txt")
+                                                .directory("directory", "C:", "index.html")
+                                        )
 
-                                )
-
-                                .authentication(auth -> auth
-                                        .basicHttp("/{id}/1", MyHttpAuthenticator::check, "method 1")
-                                        .basicHttp("/file", MyHttpAuthenticator::check, "file")
-                                        .orElseAllow()
-                                )
+                                        .authentication(authenticator -> authenticator
+                                                .basicHttp(MyHttpAuthenticator::check, "realm", auth -> auth
+                                                        .on("/{id}/1", "/file")
+                                                        .ignore("/234/1"))
+                                                .orElseAllow()
+                                        )
 
                                 .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
                                 .exception(IllegalStateException.class, exception -> {

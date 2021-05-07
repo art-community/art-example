@@ -21,8 +21,7 @@ package ru.service;
 import io.art.http.authentication.Authenticator.*;
 
 public class MyHttpAuthenticator {
-    public static AuthenticationStatus check(String credentials){
-        if (credentials == null) return AuthenticationStatus.unauthenticated;
-        return "user:pass".equals(credentials) ? AuthenticationStatus.allow : AuthenticationStatus.deny;
+    public static boolean check(String credentials){
+        return "user:pass".equals(credentials);
     }
 }
