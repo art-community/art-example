@@ -45,10 +45,10 @@ public class ExampleHttp {
                                         )
 
                                         .authentication(authenticator -> authenticator
-                                                .basicHttp(MyHttpAuthenticator::check, "realm", auth -> auth
+                                                .basic(MyHttpAuthenticator::check, auth -> auth
                                                         .on("/{id}/1", "/file")
-                                                        .ignore("/234/1"))
-                                                .orElseAllow()
+                                                        .ignore("/234/1")
+                                                )
                                         )
 
                                 .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
