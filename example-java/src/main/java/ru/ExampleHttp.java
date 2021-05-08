@@ -51,12 +51,12 @@ public class ExampleHttp {
                                                 )
                                         )
 
-                                .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
-                                .exception(IllegalStateException.class, exception -> {
-                                    httpContext().status(405);
-                                    return httpResponse(exception.getMessage());
-                                })
-                                .exception(Throwable.class, HttpResponseStatus.CONFLICT)
+                                        .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))
+                                        .exception(IllegalStateException.class, exception -> {
+                                            httpContext().status(405);
+                                            return httpResponse(exception.getMessage());
+                                        })
+                                        .exception(Throwable.class, HttpResponseStatus.CONFLICT)
                         )
                 ); 
     }
