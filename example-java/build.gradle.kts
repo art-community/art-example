@@ -1,5 +1,4 @@
 plugins {
-    id("art-java-generator")
 }
 
 val lombokVersion: String by project
