@@ -45,10 +45,12 @@ public class ExampleHttp {
                                         )
 
                                         .authentication(authenticator -> authenticator
-                                                .basic(MyHttpAuthenticator::check, auth -> auth
-                                                        .on("/{id}/1", "/file")
+                                                .basic(MyHttpAuthenticator::checkBasic, auth -> auth
+                                                        .on("/{id}/1")
                                                         .ignore("/234/1")
                                                 )
+                                                .bearer(MyHttpAuthenticator::checkBearer, auth -> auth
+                                                        .on("file"))
                                         )
 
                                         .exception(HttpExampleException.class, 404, () -> httpResponse("httpExampleException"))

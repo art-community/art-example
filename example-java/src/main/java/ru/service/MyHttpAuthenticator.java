@@ -21,7 +21,11 @@ package ru.service;
 import io.art.http.authentication.Authenticator.*;
 
 public class MyHttpAuthenticator {
-    public static boolean check(String credentials){
+    public static boolean checkBasic(String credentials){
         return "user:pass".equals(credentials);
+    }
+
+    public static boolean checkBearer(String token){
+        return "exampleToken".equals(token);
     }
 }
