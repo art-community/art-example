@@ -1,7 +1,7 @@
 package ru.service;
 
 import lombok.*;
-import org.apache.logging.log4j.core.*;
+import  io.art.logging.core.*;
 import reactor.core.publisher.*;
 import ru.model.*;
 

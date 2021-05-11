@@ -2,7 +2,7 @@ package ru.storage;
 
 import io.art.tarantool.constants.*;
 import io.art.tarantool.instance.*;
-import org.apache.logging.log4j.*;
+import  io.art.logging.*;
 import ru.model.*;
 
 import java.util.*;
