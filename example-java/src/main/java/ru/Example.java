@@ -57,7 +57,7 @@ public class Example {
 //                    communicator.myMethod16(flux).blockFirst();
 //                    communicator.myMethod17("test");
 //                    communicator.myMethod18(fixedArrayOf("test"));
-//                    communicator.myMethod19(GenericModel.<String, GenericTypeParameter<String>>builder().build());
+//                    communicator.myMethod19(GenericModel.<String, GenericTypeParameter<String>>deferredExecutor().build());
                 }, ofSeconds(30)));
     }
 }

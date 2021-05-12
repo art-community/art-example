@@ -1,13 +1,13 @@
 package ru.storage;
 
+import io.art.logging.logger.*;
 import io.art.tarantool.constants.*;
 import io.art.tarantool.instance.*;
-import  io.art.logging.*;
 import ru.model.*;
 
 import java.util.*;
 
-import static io.art.logging.LoggingModule.*;
+import static io.art.logging.module.LoggingModule.*;
 import static io.art.storage.module.StorageModule.*;
 import static io.art.tarantool.configuration.space.TarantoolSpaceConfig.*;
 import static io.art.tarantool.configuration.space.TarantoolSpaceFormat.*;

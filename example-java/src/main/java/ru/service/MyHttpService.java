@@ -6,7 +6,7 @@ import reactor.core.publisher.*;
 import ru.model.*;
 
 import static io.art.http.module.HttpModule.*;
-import static io.art.logging.LoggingModule.*;
+import static io.art.logging.module.LoggingModule.*;
 
 
 public class MyHttpService {
