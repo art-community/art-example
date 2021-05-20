@@ -8,8 +8,7 @@ import ru.configuration.*;
 import ru.model.*;
 import ru.service.*;
 import static io.art.communicator.module.CommunicatorModule.*;
-import static io.art.core.factory.ArrayFactory.*;
-import static io.art.launcher.ModuleLauncher.*;
+import static io.art.launcher.Launcher.*;
 import static io.art.model.configurator.ModuleModelConfigurator.*;
 import static io.art.scheduler.manager.SchedulersManager.*;
 import static java.time.Duration.*;
@@ -57,7 +56,7 @@ public class Example {
 //                    communicator.myMethod16(flux).blockFirst();
 //                    communicator.myMethod17("test");
 //                    communicator.myMethod18(fixedArrayOf("test"));
-//                    communicator.myMethod19(GenericModel.<String, GenericTypeParameter<String>>builder().build());
+//                    communicator.myMethod19(GenericModel.<String, GenericTypeParameter<String>>deferredExecutor().build());
                 }, ofSeconds(30)));
     }
 }

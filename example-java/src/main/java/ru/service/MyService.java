@@ -5,7 +5,7 @@ import reactor.core.scheduler.*;
 import ru.communicator.*;
 import ru.model.*;
 import static io.art.core.factory.SetFactory.*;
-import static io.art.logging.LoggingModule.*;
+import static io.art.logging.module.LoggingModule.*;
 import static ru.communicator.Communicators.*;
 import java.time.*;
 import java.util.*;

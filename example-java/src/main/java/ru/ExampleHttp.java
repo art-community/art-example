@@ -8,7 +8,7 @@ import reactor.netty.http.server.logging.*;
 import ru.model.*;
 import ru.service.*;
 import static io.art.http.module.HttpModule.*;
-import static io.art.launcher.ModuleLauncher.*;
+import static io.art.launcher.Launcher.*;
 import static io.art.model.configurator.ModuleModelConfigurator.*;
 import static io.art.value.constants.ValueModuleConstants.DataFormat.*;
 import static ru.ExampleHttpProvider.*;
