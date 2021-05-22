@@ -1,12 +1,13 @@
 package ru.service;
 
+import io.art.logging.logger.*;
 import lombok.*;
-import  io.art.logging.core.*;
 import reactor.core.publisher.*;
 import ru.model.*;
-
 import static io.art.http.module.HttpModule.*;
 import static io.art.logging.module.LoggingModule.*;
+import static java.util.Objects.*;
+import static ru.model.HttpResponse.*;
 
 
 public class MyHttpService {
