@@ -1,5 +1,5 @@
 plugins {
-    id("art-internal-jvm") version "main"
+    id("art-internal-jvm")
 }
 
 group = "io.art.example"
