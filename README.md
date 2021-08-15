@@ -9,7 +9,7 @@ ART Example will explain you how to use ART modules together.
 
 ## Requirements
 
-- Java 8+
+- Java 11
 - Gradle 7+
 
 ## Bugs and Feedback
@@ -27,7 +27,8 @@ git clone https://github.com/art-community/art-example
 cd art-example
 git checkout experimental
 chmod +x gradlew 
-./gradlew build
+./gradlew build-executable-jar
+java -jar example-kotlin/executable/example-kotlin.jar
 ```
 
 windows:
@@ -36,7 +37,8 @@ windows:
 git clone https://github.com/art-community/art-example
 cd art-example
 git checkout experimental
-gradlew build
+gradlew build-executable-jar
+java -jar example-kotlin/executable/example-kotlin.jar
 ```
 
 Then open in yours favorite development tool.
