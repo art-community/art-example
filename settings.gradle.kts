@@ -40,4 +40,4 @@ pluginManagement {
 
 
 include("example-java")
-//include("example-kotlin")
+include("example-kotlin")

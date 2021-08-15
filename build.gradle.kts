@@ -1,5 +1,5 @@
 plugins {
-    id("art-internal-jvm")
+    id("art-jvm")
 }
 
 group = "io.art.example"
@@ -9,12 +9,8 @@ tasks.withType(type = Wrapper::class) {
 }
 
 allprojects {
+    group = rootProject.group
     repositories {
         mavenCentral()
     }
-}
-
-project(":example-java") {
-    group = rootProject.group
-    apply(plugin = "java-library")
 }
