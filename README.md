@@ -24,6 +24,9 @@ unix-like:
 
 ```bash
 git clone https://github.com/art-community/art-example
+cd art-example
+git checkout experimental
+chmod +x gradlew 
 ./gradlew build
 ```
 
@@ -31,8 +34,12 @@ windows:
 
 ```bash
 git clone https://github.com/art-community/art-example
+cd art-example
+git checkout experimental
 gradlew build
 ```
+
+Then open in yours favorite development tool.
 
 ## LICENSE
 
