@@ -12,7 +12,7 @@ fun main() = activator {
     meta(::MetaExampleKotlin)
     configurator()
     logging()
-    json()
+    yaml()
     messagePack()
     transport()
     rsocket {
