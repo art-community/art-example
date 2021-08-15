@@ -1,3 +1,3 @@
 package ru.model
 
-data class Model(val value: String)
+data class Model(val value: Sequence<String>)

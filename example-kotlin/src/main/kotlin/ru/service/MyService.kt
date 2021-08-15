@@ -7,6 +7,6 @@ import ru.model.Model
 object MyService : MyCommunicator {
     override fun myMethod(model: Model): Model {
         info("myMethod1")
-        return model.copy(value = "${model.value}: response")
+        return model.copy(value = sequenceOf("${model.value.first()}: response"))
     }
 }

@@ -21,6 +21,7 @@ import kotlin.Suppress
 import kotlin.Throwable
 import kotlin.collections.Map
 import kotlin.jvm.Throws
+import kotlin.sequences.Sequence
 import ru.communicator.MyCommunicator
 import ru.communicator.MyConnector
 import ru.model.Model
@@ -185,8 +186,8 @@ public class MetaExampleKotlin : MetaLibrary {
         private val `constructor`: MetaConstructorConstructor =
             register(MetaConstructorConstructor())
 
-        private val valueField: MetaField<String> =
-            register(MetaField("value",metaType<String>(String::class.java),false))
+        private val valueField: MetaField<Sequence<String>> =
+            register(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false))
 
         private final val getValueMethod: MetaGetValueMethod = register(MetaGetValueMethod())
 
@@ -194,31 +195,32 @@ public class MetaExampleKotlin : MetaLibrary {
 
         public fun `constructor`(): MetaConstructorConstructor = constructor
 
-        public fun valueField(): MetaField<String> = valueField
+        public fun valueField(): MetaField<Sequence<String>> = valueField
 
         public fun getValueMethod(): MetaGetValueMethod = getValueMethod
 
         public class MetaConstructorConstructor : MetaConstructor<Model> {
-          private val valueParameter: MetaParameter<String> = register(MetaParameter(0,
-              "value",metaType<String>(String::class.java)))
+          private val valueParameter: MetaParameter<Sequence<String>> = register(MetaParameter(0,
+              "value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java))))
 
           internal constructor() : super(metaType<Model>(Model::class.java))
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Model {
-            return Model(arguments[0] as String)
+            return Model(arguments[0] as Sequence<String>)
           }
 
           @Throws(Throwable::class)
           public override fun invoke(argument: Any): Model {
-            return Model(argument as String)
+            return Model(argument as Sequence<String>)
           }
 
-          public fun valueParameter(): MetaParameter<String> = valueParameter
+          public fun valueParameter(): MetaParameter<Sequence<String>> = valueParameter
         }
 
-        public class MetaGetValueMethod : InstanceMetaMethod<Model, String> {
-          internal constructor() : super("getValue",metaType<String>(String::class.java))
+        public class MetaGetValueMethod : InstanceMetaMethod<Model, Sequence<String>> {
+          internal constructor() :
+              super("getValue",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)))
 
           @Throws(Throwable::class)
           public override fun invoke(instance: Model): Any? = instance.`value`

@@ -20,7 +20,7 @@ fun main() = activator {
     }
     onLaunch {
         rsocketConnector<MyConnector> {
-            info(my().myMethod(Model("request")).value)
+            info(my().myMethod(Model(sequenceOf("request"))).value.first().toString())
         }
     }
     launch()
