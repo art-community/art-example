@@ -18,6 +18,10 @@ art {
             modulePackage("ru")
         }
     }
+    executable {
+        main("ru.Example")
+        jar()
+    }
 }
 
 dependencies {

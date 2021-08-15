@@ -27,4 +27,8 @@ art {
             modulePackage("ru")
         }
     }
+    executable {
+        main("ru.ExampleKt")
+        jar()
+    }
 }
