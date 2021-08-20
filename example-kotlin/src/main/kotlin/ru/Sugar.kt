@@ -15,7 +15,7 @@ fun не_магия() {
 
 // Здесь магия (мы выводим в yaml на базе не объявленных мета-типов) - с помощью рефлекшона и котлин выведения
 fun магия() {
-    info(mapOf("типа ключ" TO sequenceOf(mapOf("сладкий" to "сахар"))).asPrettyString())
+    info(mapOf("типа ключ" TO SEQUENCEOF(MAPOF("СЛАДКИЙ" to "сахар"))).asPrettyString())
 }
 
 fun main() = activator {
