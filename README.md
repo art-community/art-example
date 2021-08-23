@@ -27,7 +27,7 @@ git clone https://github.com/art-community/art-example
 cd art-example
 git checkout experimental
 chmod +x gradlew 
-./gradlew build-executable-jar
+./gradlew build-jar-executable
 cd example-kotlin/build/executable
 java -jar example-kotlin.jar
 ```
@@ -38,7 +38,7 @@ windows:
 git clone https://github.com/art-community/art-example
 cd art-example
 git checkout experimental
-gradlew build-executable-jar
+gradlew build-jar-executable
 cd example-kotlin/build/executable
 java -jar example-kotlin.jar
 ```
