@@ -30,5 +30,6 @@ art {
     executable {
         main("ru.ExampleKt")
         jar()
+        native()
     }
 }
