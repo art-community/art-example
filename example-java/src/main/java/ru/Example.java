@@ -26,7 +26,7 @@ public class Example {
                 .module(yaml())
                 .module(transport())
                 .module(rsocket(rsocket -> rsocket
-                        .server(server -> server.tcp().configureService(MyService.class))
+                        .server(server -> server.tcp().service(MyService.class))
                         .communicator(communicator -> communicator.tcp(MyConnector.class))))
                 .onLaunch(() -> logger().info(rsocketConnector(MyConnector.class)
                         .my()

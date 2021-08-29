@@ -16,7 +16,7 @@ fun main() = activator {
     messagePack()
     transport()
     rsocket {
-        server { server -> server.tcp().configureService(MyService::class.java) }
+        server { server -> server.tcp().service(MyService::class.java) }
         communicator { communicator -> communicator.tcp(MyConnector::class.java) }
     }
     onLaunch {
