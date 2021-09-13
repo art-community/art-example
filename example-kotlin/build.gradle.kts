@@ -30,6 +30,8 @@ art {
     executable {
         main("ru.ExampleKt")
         jar()
-        native()
+        native {
+            graalVersion("21.3.0-dev-20210910_2147")
+        }
     }
 }
