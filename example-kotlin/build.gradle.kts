@@ -31,7 +31,8 @@ art {
         main("ru.ExampleKt")
         jar()
         native {
-            graalVersion("21.3.0-dev-20210910_2147")
+            graalVersion("21.3.0-dev")
+            graalUrl("https://github.com/graalvm/graalvm-ce-dev-builds/releases/download/21.3.0-dev-20210910_2147/graalvm-ce-java11-darwin-amd64-dev.tar.gz")
         }
     }
 }
