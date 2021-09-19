@@ -1,8 +1,15 @@
 package ru
 
-import io.art.launcher.kotlin.*
+import io.art.configurator.kotlin.configurator
+import io.art.launcher.kotlin.activator
 import io.art.logging.kotlin.info
+import io.art.logging.kotlin.logging
+import io.art.message.pack.kotlin.messagePack
+import io.art.meta.kotlin.KotlinMetaActivator.meta
+import io.art.rsocket.kotlin.rsocket
 import io.art.rsocket.kotlin.rsocketConnector
+import io.art.transport.kotlin.transport
+import io.art.yaml.kotlin.yaml
 import ru.communicator.MyConnector
 import ru.meta.MetaExampleKotlin
 import ru.model.Model
