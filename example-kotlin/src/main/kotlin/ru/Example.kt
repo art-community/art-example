@@ -31,5 +31,5 @@ fun main() = activator {
             info(my().myMethod(Model(sequenceOf("request"))).value.first().toString())
         }
     }
-    launch().block()
+    launch()
 }
