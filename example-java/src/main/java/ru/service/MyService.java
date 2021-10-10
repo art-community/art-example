@@ -15,6 +15,6 @@ public class MyService implements MyCommunicator {
     @Override
     public Model getModel() {
         logger(MyService.class).info("getModel");
-        return Model.builder().value("http: RESPONSE").build();
+        return Model.builder().value("http: response").build();
     }
 }
