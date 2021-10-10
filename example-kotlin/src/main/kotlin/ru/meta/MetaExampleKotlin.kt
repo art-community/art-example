@@ -64,9 +64,13 @@ public class MetaExampleKotlin : MetaLibrary {
       public class MetaMyCommunicatorClass : MetaClass<MyCommunicator> {
         private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod())
 
+        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
+
         internal constructor() : super(metaType<MyCommunicator>(MyCommunicator::class.java))
 
         public fun myMethodMethod(): MetaMyMethodMethod = myMethodMethod
+
+        public fun getModelMethod(): MetaGetModelMethod = getModelMethod
 
         public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
             = MetaMyCommunicatorProxy(invocations)
@@ -90,16 +94,35 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun modelParameter(): MetaParameter<Model> = modelParameter
         }
 
+        public class MetaGetModelMethod : InstanceMetaMethod<MyCommunicator, Model> {
+          internal constructor() : super("getModel",metaType<Model>(Model::class.java))
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
+            return instance.getModel()
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyCommunicator): Any? {
+            return instance.getModel()
+          }
+        }
+
         public inner class MetaMyCommunicatorProxy : MetaProxy, MyCommunicator {
           private final val myMethodInvocation: Function<Any?, Any?>
+
+          private final val getModelInvocation: Function<Any?, Any?>
 
           public constructor(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>) :
               super(invocations) {
             myMethodInvocation = invocations[myMethodMethod]!!
+            getModelInvocation = invocations[getModelMethod]!!
           }
 
           public override fun myMethod(model: Model): Model = myMethodInvocation.apply(model) as
               Model
+
+          public override fun getModel(): Model = getModelInvocation.apply(null) as Model
         }
       }
 
@@ -150,9 +173,13 @@ public class MetaExampleKotlin : MetaLibrary {
       public class MetaMyServiceClass : MetaClass<MyService> {
         private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod())
 
+        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
+
         internal constructor() : super(metaType<MyService>(MyService::class.java))
 
         public fun myMethodMethod(): MetaMyMethodMethod = myMethodMethod
+
+        public fun getModelMethod(): MetaGetModelMethod = getModelMethod
 
         public class MetaMyMethodMethod : StaticMetaMethod<Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
@@ -171,6 +198,20 @@ public class MetaExampleKotlin : MetaLibrary {
           }
 
           public fun modelParameter(): MetaParameter<Model> = modelParameter
+        }
+
+        public class MetaGetModelMethod : StaticMetaMethod<Model> {
+          internal constructor() : super("getModel",metaType<Model>(Model::class.java))
+
+          @Throws(Throwable::class)
+          public override fun invoke(arguments: Array<Any>): Any? {
+            return MyService.getModel()
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(): Any? {
+            return MyService.getModel()
+          }
         }
       }
     }

@@ -5,4 +5,6 @@ import ru.model.*;
 
 public interface MyCommunicator extends Communicator {
     Model myMethod(Model request);
+
+    Model getModel();
 }

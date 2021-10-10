@@ -136,12 +136,18 @@ public class MetaExampleJava extends MetaLibrary {
       public static final class MetaMyCommunicatorClass extends MetaClass<ru.communicator.MyCommunicator> {
         private final MetaMyMethodMethod myMethodMethod = register(new MetaMyMethodMethod());
 
+        private final MetaGetModelMethod getModelMethod = register(new MetaGetModelMethod());
+
         private MetaMyCommunicatorClass() {
           super(metaType(ru.communicator.MyCommunicator.class));
         }
 
         public MetaMyMethodMethod myMethodMethod() {
           return myMethodMethod;
+        }
+
+        public MetaGetModelMethod getModelMethod() {
+          return getModelMethod;
         }
 
         @Override
@@ -174,18 +180,43 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
+        public static final class MetaGetModelMethod extends InstanceMetaMethod<ru.communicator.MyCommunicator, ru.model.Model> {
+          private MetaGetModelMethod() {
+            super("getModel",metaType(ru.model.Model.class));
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.communicator.MyCommunicator instance,
+              java.lang.Object[] arguments) throws Throwable {
+            return instance.getModel();
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.communicator.MyCommunicator instance) throws Throwable {
+            return instance.getModel();
+          }
+        }
+
         public class MetaMyCommunicatorProxy extends MetaProxy implements ru.communicator.MyCommunicator {
           private final Function<java.lang.Object, java.lang.Object> myMethodInvocation;
+
+          private final Function<java.lang.Object, java.lang.Object> getModelInvocation;
 
           public MetaMyCommunicatorProxy(
               Map<MetaMethod<?>, Function<java.lang.Object, java.lang.Object>> invocations) {
             super(invocations);
             myMethodInvocation = invocations.get(myMethodMethod);
+            getModelInvocation = invocations.get(getModelMethod);
           }
 
           @Override
           public ru.model.Model myMethod(ru.model.Model request) {
             return (ru.model.Model)(myMethodInvocation.apply(request));
+          }
+
+          @Override
+          public ru.model.Model getModel() {
+            return (ru.model.Model)(getModelInvocation.apply(null));
           }
         }
       }
@@ -426,6 +457,8 @@ public class MetaExampleJava extends MetaLibrary {
 
         private final MetaMyMethodMethod myMethodMethod = register(new MetaMyMethodMethod());
 
+        private final MetaGetModelMethod getModelMethod = register(new MetaGetModelMethod());
+
         private MetaMyServiceClass() {
           super(metaType(ru.service.MyService.class));
         }
@@ -436,6 +469,10 @@ public class MetaExampleJava extends MetaLibrary {
 
         public MetaMyMethodMethod myMethodMethod() {
           return myMethodMethod;
+        }
+
+        public MetaGetModelMethod getModelMethod() {
+          return getModelMethod;
         }
 
         public static final class MetaConstructorConstructor extends MetaConstructor<ru.service.MyService> {
@@ -475,6 +512,23 @@ public class MetaExampleJava extends MetaLibrary {
 
           public MetaParameter<ru.model.Model> modelParameter() {
             return modelParameter;
+          }
+        }
+
+        public static final class MetaGetModelMethod extends InstanceMetaMethod<ru.service.MyService, ru.model.Model> {
+          private MetaGetModelMethod() {
+            super("getModel",metaType(ru.model.Model.class));
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance,
+              java.lang.Object[] arguments) throws Throwable {
+            return instance.getModel();
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance) throws Throwable {
+            return instance.getModel();
           }
         }
       }

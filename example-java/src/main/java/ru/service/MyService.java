@@ -11,4 +11,10 @@ public class MyService implements MyCommunicator {
         logger(MyService.class).info("myMethod:\n" + toPrettyString(model));
         return model.toBuilder().value(model.getValue() + ": response").build();
     }
+
+    @Override
+    public Model getModel() {
+        logger(MyService.class).info("getModel");
+        return Model.builder().value("http: RESPONSE").build();
+    }
 }

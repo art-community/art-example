@@ -1,6 +1,9 @@
 package ru
 
 import io.art.configurator.kotlin.configurator
+import io.art.http.kotlin.http
+import io.art.http.kotlin.httpConnector
+import io.art.json.kotlin.json
 import io.art.launcher.kotlin.activator
 import io.art.logging.kotlin.info
 import io.art.logging.kotlin.logging
@@ -19,6 +22,7 @@ fun main() = activator {
     meta(::MetaExampleKotlin)
     configurator()
     logging()
+    json()
     yaml()
     messagePack()
     transport()
@@ -26,9 +30,16 @@ fun main() = activator {
         server { server -> server.tcp().service(MyService::class.java) }
         communicator { communicator -> communicator.tcp(MyConnector::class.java) }
     }
+    http {
+        server { server -> server.route(MyService::class.java) }
+        communicator { communicator -> communicator.connector(MyConnector::class.java) }
+    }
     onLaunch {
         rsocketConnector<MyConnector> {
             info(my().myMethod(Model(sequenceOf("request"))).value.first().toString())
+        }
+        httpConnector<MyConnector> {
+            info(my().getModel().value.first().toString())
         }
     }
     launch()
