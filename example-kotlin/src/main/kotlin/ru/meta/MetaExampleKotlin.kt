@@ -22,6 +22,8 @@ import kotlin.Throwable
 import kotlin.collections.Map
 import kotlin.jvm.Throws
 import kotlin.sequences.Sequence
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import ru.communicator.MyCommunicator
 import ru.communicator.MyConnector
 import ru.model.Model
@@ -66,11 +68,16 @@ public class MetaExampleKotlin : MetaLibrary {
 
         private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
 
+        private final val compensationMethod: MetaCompensationMethod =
+            register(MetaCompensationMethod())
+
         internal constructor() : super(metaType<MyCommunicator>(MyCommunicator::class.java))
 
         public fun myMethodMethod(): MetaMyMethodMethod = myMethodMethod
 
         public fun getModelMethod(): MetaGetModelMethod = getModelMethod
+
+        public fun compensationMethod(): MetaCompensationMethod = compensationMethod
 
         public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
             = MetaMyCommunicatorProxy(invocations)
@@ -108,21 +115,47 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
+        public class MetaCompensationMethod : InstanceMetaMethod<MyCommunicator, Mono<String>> {
+          private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
+              "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
+
+          internal constructor() :
+              super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)))
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
+            return instance.compensation(arguments[0] as Flux<String>)
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyCommunicator, argument: Any): Any? {
+            return instance.compensation(argument as Flux<String>)
+          }
+
+          public fun inputParameter(): MetaParameter<Flux<String>> = inputParameter
+        }
+
         public inner class MetaMyCommunicatorProxy : MetaProxy, MyCommunicator {
           private final val myMethodInvocation: Function<Any?, Any?>
 
           private final val getModelInvocation: Function<Any?, Any?>
 
+          private final val compensationInvocation: Function<Any?, Any?>
+
           public constructor(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>) :
               super(invocations) {
             myMethodInvocation = invocations[myMethodMethod]!!
             getModelInvocation = invocations[getModelMethod]!!
+            compensationInvocation = invocations[compensationMethod]!!
           }
 
           public override fun myMethod(model: Model): Model = myMethodInvocation.apply(model) as
               Model
 
           public override fun getModel(): Model = getModelInvocation.apply(null) as Model
+
+          public override fun compensation(input: Flux<String>): Mono<String> =
+              compensationInvocation.apply(input) as Mono<String>
         }
       }
 
@@ -175,11 +208,16 @@ public class MetaExampleKotlin : MetaLibrary {
 
         private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
 
+        private final val compensationMethod: MetaCompensationMethod =
+            register(MetaCompensationMethod())
+
         internal constructor() : super(metaType<MyService>(MyService::class.java))
 
         public fun myMethodMethod(): MetaMyMethodMethod = myMethodMethod
 
         public fun getModelMethod(): MetaGetModelMethod = getModelMethod
+
+        public fun compensationMethod(): MetaCompensationMethod = compensationMethod
 
         public class MetaMyMethodMethod : StaticMetaMethod<Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
@@ -212,6 +250,26 @@ public class MetaExampleKotlin : MetaLibrary {
           public override fun invoke(): Any? {
             return MyService.getModel()
           }
+        }
+
+        public class MetaCompensationMethod : StaticMetaMethod<Mono<String>> {
+          private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
+              "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
+
+          internal constructor() :
+              super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)))
+
+          @Throws(Throwable::class)
+          public override fun invoke(arguments: Array<Any>): Any? {
+            return MyService.compensation(arguments[0] as Flux<String>)
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(argument: Any): Any? {
+            return MyService.compensation(argument as Flux<String>)
+          }
+
+          public fun inputParameter(): MetaParameter<Flux<String>> = inputParameter
         }
       }
     }

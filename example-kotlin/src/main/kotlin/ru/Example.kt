@@ -13,9 +13,9 @@ import io.art.rsocket.kotlin.rsocket
 import io.art.rsocket.kotlin.rsocketConnector
 import io.art.transport.kotlin.transport
 import io.art.yaml.kotlin.yaml
+import reactor.core.publisher.Flux
 import ru.communicator.MyConnector
 import ru.meta.MetaExampleKotlin
-import ru.model.Model
 import ru.service.MyService
 
 fun main() = activator {
@@ -36,7 +36,7 @@ fun main() = activator {
     }
     onLaunch {
         rsocketConnector<MyConnector> {
-            info(my().myMethod(Model(sequenceOf("request"))).value.first().toString())
+            my().compensation(Flux.just("error")).subscribe(::info)
         }
         httpConnector<MyConnector> {
             info(my().getModel().value.first().toString())
