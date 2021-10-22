@@ -18,10 +18,10 @@ import static io.art.rsocket.Rsocket.*;
 import static io.art.rsocket.module.RsocketActivator.*;
 import static io.art.transport.module.TransportActivator.*;
 import static io.art.yaml.module.YamlActivator.*;
+import java.io.*;
 
 public class Example {
-    public static void main(String[] arguments) {
-        Native.newEpollCreate();
-        Native.newEventFd();
+    public static void main(String[] arguments) throws IOException {
+        Native.newEpollCreate().close();
     }
 }
