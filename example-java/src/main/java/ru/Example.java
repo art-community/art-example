@@ -21,6 +21,6 @@ import static io.art.yaml.module.YamlActivator.*;
 
 public class Example {
     public static void main(String[] arguments) {
-        Native.newEventFd();
+        System.err.println(Epoll.unavailabilityCause());
     }
 }
