@@ -1,6 +1,7 @@
 package ru;
 
 import io.art.http.*;
+import io.netty.channel.epoll.*;
 import ru.communicator.*;
 import ru.meta.*;
 import ru.model.*;
@@ -20,31 +21,6 @@ import static io.art.yaml.module.YamlActivator.*;
 
 public class Example {
     public static void main(String[] arguments) {
-        activator(arguments)
-                .main(Example.class.getSimpleName())
-                .module(meta(MetaExampleJava::new))
-                .module(configurator())
-                .module(logging())
-                .module(messagePack())
-                .module(json())
-                .module(yaml())
-                .module(transport())
-                .module(rsocket(rsocket -> rsocket
-                        .server(server -> server.tcp().service(MyService.class))
-                        .communicator(communicator -> communicator.tcp(MyConnector.class))))
-                .module(http(http -> http
-                        .server(server -> server.route(MyService.class))
-                        .communicator(communicator -> communicator.connector(MyConnector.class))))
-                .onLaunch(() -> {
-                    logger().info(rsocketConnector(MyConnector.class)
-                            .my()
-                            .myMethod(Model.builder().value("request").build())
-                            .toString());
-                    logger().info(Http.httpConnector(MyConnector.class)
-                            .my()
-                            .getModel()
-                            .toString());
-                })
-                .launch();
+        Native.newEventFd();
     }
 }
