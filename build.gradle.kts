@@ -5,7 +5,7 @@ plugins {
 group = "io.art.example"
 
 tasks.withType(type = Wrapper::class) {
-    gradleVersion = "7.0"
+    gradleVersion = "7.2"
 }
 
 allprojects {
