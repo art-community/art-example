@@ -1,4 +1,3 @@
-import org.gradle.internal.jvm.Jvm.current
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -9,7 +8,7 @@ plugins {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         apiVersion = "1.5"
-        jvmTarget = current().javaVersion!!.toString()
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
