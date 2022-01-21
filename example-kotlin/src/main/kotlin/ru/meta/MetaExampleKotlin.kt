@@ -25,7 +25,7 @@ import kotlin.sequences.Sequence
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.communicator.MyCommunicator
-import ru.communicator.MyConnector
+import ru.communicator.MyPortal
 import ru.model.Model
 import ru.service.MyService
 
@@ -55,13 +55,13 @@ public class MetaExampleKotlin : MetaLibrary {
     public class MetaCommunicatorPackage : MetaPackage {
       private val myCommunicatorClass: MetaMyCommunicatorClass = register(MetaMyCommunicatorClass())
 
-      private val myConnectorClass: MetaMyConnectorClass = register(MetaMyConnectorClass())
+      private val myPortalClass: MetaMyPortalClass = register(MetaMyPortalClass())
 
       internal constructor() : super("communicator")
 
       public fun myCommunicatorClass(): MetaMyCommunicatorClass = myCommunicatorClass
 
-      public fun myConnectorClass(): MetaMyConnectorClass = myConnectorClass
+      public fun myPortalClass(): MetaMyPortalClass = myPortalClass
 
       public class MetaMyCommunicatorClass : MetaClass<MyCommunicator> {
         private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod())
@@ -159,31 +159,31 @@ public class MetaExampleKotlin : MetaLibrary {
         }
       }
 
-      public class MetaMyConnectorClass : MetaClass<MyConnector> {
+      public class MetaMyPortalClass : MetaClass<MyPortal> {
         private final val myMethod: MetaMyMethod = register(MetaMyMethod())
 
-        internal constructor() : super(metaType<MyConnector>(MyConnector::class.java))
+        internal constructor() : super(metaType<MyPortal>(MyPortal::class.java))
 
         public fun myMethod(): MetaMyMethod = myMethod
 
         public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
-            = MetaMyConnectorProxy(invocations)
+            = MetaMyPortalProxy(invocations)
 
-        public class MetaMyMethod : InstanceMetaMethod<MyConnector, MyCommunicator> {
+        public class MetaMyMethod : InstanceMetaMethod<MyPortal, MyCommunicator> {
           internal constructor() : super("my",metaType<MyCommunicator>(MyCommunicator::class.java))
 
           @Throws(Throwable::class)
-          public override fun invoke(instance: MyConnector, arguments: Array<Any>): Any? {
+          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
             return instance.my()
           }
 
           @Throws(Throwable::class)
-          public override fun invoke(instance: MyConnector): Any? {
+          public override fun invoke(instance: MyPortal): Any? {
             return instance.my()
           }
         }
 
-        public inner class MetaMyConnectorProxy : MetaProxy, MyConnector {
+        public inner class MetaMyPortalProxy : MetaProxy, MyPortal {
           private final val myInvocation: Function<Any?, Any?>
 
           public constructor(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>) :
