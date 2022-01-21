@@ -1,6 +1,7 @@
 package ru;
 
 import io.art.http.*;
+import io.art.rsocket.*;
 import ru.communicator.*;
 import ru.meta.*;
 import ru.model.*;
@@ -13,7 +14,6 @@ import static io.art.logging.Logging.*;
 import static io.art.logging.module.LoggingActivator.*;
 import static io.art.message.pack.module.MessagePackActivator.*;
 import static io.art.meta.module.MetaActivator.*;
-import static io.art.rsocket.Rsocket.*;
 import static io.art.rsocket.module.RsocketActivator.*;
 import static io.art.transport.module.TransportActivator.*;
 import static io.art.yaml.module.YamlActivator.*;
@@ -36,11 +36,11 @@ public class Example {
                         .server(server -> server.route(MyService.class))
                         .communicator(communicator -> communicator.connector(MyConnector.class))))
                 .onLaunch(() -> {
-                    logger().info(rsocketConnector(MyConnector.class)
+                    logger().info(Rsocket.rsocket(MyConnector.class)
                             .my()
                             .myMethod(Model.builder().value("request").build())
                             .toString());
-                    logger().info(Http.httpConnector(MyConnector.class)
+                    logger().info(Http.http(MyConnector.class)
                             .my()
                             .getModel()
                             .toString());

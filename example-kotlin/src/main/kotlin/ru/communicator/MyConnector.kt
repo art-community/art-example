@@ -1,7 +1,7 @@
 package ru.communicator
 
-import io.art.communicator.Connector
+import io.art.communicator.Portal
 
-interface MyConnector : Connector {
+interface MyConnector : Portal {
     fun my(): MyCommunicator
 }
