@@ -1,16 +1,12 @@
 package ru;
 
-import io.art.http.*;
-import io.art.rsocket.*;
 import ru.communicator.*;
 import ru.meta.*;
-import ru.model.*;
 import ru.service.*;
 import static io.art.configurator.module.ConfiguratorActivator.*;
 import static io.art.http.module.HttpActivator.*;
 import static io.art.json.module.JsonActivator.*;
 import static io.art.launcher.Activator.*;
-import static io.art.logging.Logging.*;
 import static io.art.logging.module.LoggingActivator.*;
 import static io.art.message.pack.module.MessagePackActivator.*;
 import static io.art.meta.module.MetaActivator.*;
@@ -35,16 +31,7 @@ public class Example {
                 .module(http(http -> http
                         .server(server -> server.route(MyService.class))
                         .communicator(communicator -> communicator.connector(MyConnector.class))))
-                .onLaunch(() -> {
-                    logger().info(Rsocket.rsocket(MyConnector.class)
-                            .my()
-                            .myMethod(Model.builder().value("request").build())
-                            .toString());
-                    logger().info(Http.http(MyConnector.class)
-                            .my()
-                            .getModel()
-                            .toString());
-                })
-                .launch();
+                .launch()
+                .block();
     }
 }
