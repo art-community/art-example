@@ -29,7 +29,7 @@ public class Example {
                         .server(server -> server.tcp().service(MyService.class))
                         .communicator(communicator -> communicator.tcp(MyConnector.class))))
                 .module(http(http -> http
-                        .server(server -> server.route(MyService.class))
+                        .server(server -> server.route(MyService.class).route(MyService.class))
                         .communicator(communicator -> communicator.connector(MyConnector.class))))
                 .launch()
                 .block();
