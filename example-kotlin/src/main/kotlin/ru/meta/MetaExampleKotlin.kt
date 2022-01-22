@@ -30,6 +30,7 @@ import kotlin.sequences.Sequence
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
+import ru.Request
 import ru.communicator.MyCommunicator
 import ru.communicator.MyPortal
 import ru.model.Model
@@ -44,6 +45,8 @@ public class MetaExampleKotlin : MetaLibrary {
   public fun ruPackage(): MetaRuPackage = ruPackage
 
   public class MetaRuPackage : MetaPackage {
+    private val requestClass: MetaRequestClass = register(MetaRequestClass())
+
     private val communicatorPackage: MetaCommunicatorPackage = register(MetaCommunicatorPackage())
 
     private val servicePackage: MetaServicePackage = register(MetaServicePackage())
@@ -52,11 +55,60 @@ public class MetaExampleKotlin : MetaLibrary {
 
     internal constructor() : super("ru")
 
+    public fun requestClass(): MetaRequestClass = requestClass
+
     public fun communicatorPackage(): MetaCommunicatorPackage = communicatorPackage
 
     public fun servicePackage(): MetaServicePackage = servicePackage
 
     public fun modelPackage(): MetaModelPackage = modelPackage
+
+    public class MetaRequestClass : MetaClass<Request> {
+      private val `constructor`: MetaConstructorConstructor = register(MetaConstructorConstructor())
+
+      private val successField: MetaField<String> =
+          register(MetaField("success",metaType<String>(String::class.java),false))
+
+      private final val getSuccessMethod: MetaGetSuccessMethod = register(MetaGetSuccessMethod())
+
+      internal constructor() : super(metaType<Request>(Request::class.java))
+
+      public fun `constructor`(): MetaConstructorConstructor = constructor
+
+      public fun successField(): MetaField<String> = successField
+
+      public fun getSuccessMethod(): MetaGetSuccessMethod = getSuccessMethod
+
+      public class MetaConstructorConstructor : MetaConstructor<Request> {
+        private val successParameter: MetaParameter<String> = register(MetaParameter(0,
+            "success",metaType<String>(String::class.java)))
+
+        internal constructor() : super(metaType<Request>(Request::class.java))
+
+        @Throws(Throwable::class)
+        public override fun invoke(arguments: Array<Any>): Request {
+          return Request(arguments[0] as String)
+        }
+
+        @Throws(Throwable::class)
+        public override fun invoke(argument: Any): Request {
+          return Request(argument as String)
+        }
+
+        public fun successParameter(): MetaParameter<String> = successParameter
+      }
+
+      public class MetaGetSuccessMethod : InstanceMetaMethod<Request, String> {
+        internal constructor() : super("getSuccess",metaType<String>(String::class.java))
+
+        @Throws(Throwable::class)
+        public override fun invoke(instance: Request): Any? = instance.success
+
+        @Throws(Throwable::class)
+        public override fun invoke(instance: Request, arguments: Array<Any>): Any? =
+            instance.success
+      }
+    }
 
     public class MetaCommunicatorPackage : MetaPackage {
       private val myCommunicatorClass: MetaMyCommunicatorClass = register(MetaMyCommunicatorClass())
