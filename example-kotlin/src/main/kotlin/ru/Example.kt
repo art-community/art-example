@@ -29,7 +29,7 @@ fun main() = activator {
         communicator { communicator -> communicator.tcp(MyPortal::class.java) }
     }
     http {
-        server { server -> server.route(MyService::class.java) }
+        server { server -> server.routes(MyService::class.java) }
         communicator { communicator -> communicator.portal(MyPortal::class.java) }
     }
     launch().block()
