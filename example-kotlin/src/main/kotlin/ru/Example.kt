@@ -30,7 +30,7 @@ fun main() = activator {
     }
     http {
         server { server -> server.route(MyService::class.java) }
-        communicator { communicator -> communicator.connector(MyPortal::class.java) }
+        communicator { communicator -> communicator.portal(MyPortal::class.java) }
     }
     launch().block()
 }

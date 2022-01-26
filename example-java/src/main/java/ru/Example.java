@@ -34,7 +34,7 @@ public class Example {
                         .communicator(communicator -> communicator.tcp(MyConnector.class))))
                 .module(http(http -> http
                         .server(server -> server.route(MyService.class))
-                        .communicator(communicator -> communicator.connector(MyConnector.class))))
+                        .communicator(communicator -> communicator.portal(MyConnector.class))))
                 .onLaunch(() -> {
                     logger().info(Rsocket.rsocket(MyConnector.class)
                             .my()
