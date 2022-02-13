@@ -4,6 +4,7 @@ import static io.art.meta.model.MetaType.metaArray;
 import static io.art.meta.model.MetaType.metaEnum;
 import static io.art.meta.model.MetaType.metaType;
 
+import io.art.core.property.LazyProperty;
 import io.art.meta.model.InstanceMetaMethod;
 import io.art.meta.model.MetaClass;
 import io.art.meta.model.MetaConstructor;
@@ -59,12 +60,18 @@ public class MetaExampleJava extends MetaLibrary {
     }
 
     public static final class MetaExampleClass extends MetaClass<ru.Example> {
+      private static final LazyProperty<MetaExampleClass> self = MetaClass.self(ru.Example.class);
+
       private final MetaConstructorConstructor constructor = register(new MetaConstructorConstructor());
 
       private final MetaMainMethod mainMethod = register(new MetaMainMethod());
 
       private MetaExampleClass() {
         super(metaType(ru.Example.class));
+      }
+
+      public static MetaExampleClass example() {
+        return self.get();
       }
 
       public MetaConstructorConstructor constructor() {
@@ -134,12 +141,18 @@ public class MetaExampleJava extends MetaLibrary {
       }
 
       public static final class MetaMyCommunicatorClass extends MetaClass<ru.communicator.MyCommunicator> {
+        private static final LazyProperty<MetaMyCommunicatorClass> self = MetaClass.self(ru.communicator.MyCommunicator.class);
+
         private final MetaMyMethodMethod myMethodMethod = register(new MetaMyMethodMethod());
 
         private final MetaGetModelMethod getModelMethod = register(new MetaGetModelMethod());
 
         private MetaMyCommunicatorClass() {
           super(metaType(ru.communicator.MyCommunicator.class));
+        }
+
+        public static MetaMyCommunicatorClass myCommunicator() {
+          return self.get();
         }
 
         public MetaMyMethodMethod myMethodMethod() {
@@ -222,10 +235,16 @@ public class MetaExampleJava extends MetaLibrary {
       }
 
       public static final class MetaMyConnectorClass extends MetaClass<ru.communicator.MyConnector> {
+        private static final LazyProperty<MetaMyConnectorClass> self = MetaClass.self(ru.communicator.MyConnector.class);
+
         private final MetaMyMethod myMethod = register(new MetaMyMethod());
 
         private MetaMyConnectorClass() {
           super(metaType(ru.communicator.MyConnector.class));
+        }
+
+        public static MetaMyConnectorClass myConnector() {
+          return self.get();
         }
 
         public MetaMyMethod myMethod() {
@@ -284,6 +303,8 @@ public class MetaExampleJava extends MetaLibrary {
       }
 
       public static final class MetaModelClass extends MetaClass<ru.model.Model> {
+        private static final LazyProperty<MetaModelClass> self = MetaClass.self(ru.model.Model.class);
+
         private final MetaConstructorConstructor constructor = register(new MetaConstructorConstructor());
 
         private final MetaField<java.lang.String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false));
@@ -296,6 +317,10 @@ public class MetaExampleJava extends MetaLibrary {
 
         private MetaModelClass() {
           super(metaType(ru.model.Model.class));
+        }
+
+        public static MetaModelClass model() {
+          return self.get();
         }
 
         public MetaConstructorConstructor constructor() {
@@ -375,6 +400,8 @@ public class MetaExampleJava extends MetaLibrary {
         }
 
         public static final class MetaModelBuilderClass extends MetaClass<ru.model.Model.ModelBuilder> {
+          private static final LazyProperty<MetaModelBuilderClass> self = MetaClass.self(ru.model.Model.ModelBuilder.class);
+
           private final MetaField<java.lang.String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false));
 
           private final MetaValueMethod valueMethod = register(new MetaValueMethod());
@@ -383,6 +410,10 @@ public class MetaExampleJava extends MetaLibrary {
 
           private MetaModelBuilderClass() {
             super(metaType(ru.model.Model.ModelBuilder.class));
+          }
+
+          public static MetaModelBuilderClass modelBuilder() {
+            return self.get();
           }
 
           public MetaField<java.lang.String> valueField() {
@@ -453,6 +484,8 @@ public class MetaExampleJava extends MetaLibrary {
       }
 
       public static final class MetaMyServiceClass extends MetaClass<ru.service.MyService> {
+        private static final LazyProperty<MetaMyServiceClass> self = MetaClass.self(ru.service.MyService.class);
+
         private final MetaConstructorConstructor constructor = register(new MetaConstructorConstructor());
 
         private final MetaMyMethodMethod myMethodMethod = register(new MetaMyMethodMethod());
@@ -461,6 +494,10 @@ public class MetaExampleJava extends MetaLibrary {
 
         private MetaMyServiceClass() {
           super(metaType(ru.service.MyService.class));
+        }
+
+        public static MetaMyServiceClass myService() {
+          return self.get();
         }
 
         public MetaConstructorConstructor constructor() {

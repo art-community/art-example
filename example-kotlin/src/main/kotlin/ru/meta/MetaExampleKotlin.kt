@@ -1,5 +1,6 @@
 package ru.meta
 
+import io.art.core.`property`.LazyProperty
 import io.art.http.communicator.HttpCommunicationDecorator
 import io.art.meta.model.InstanceMetaMethod
 import io.art.meta.model.MetaClass
@@ -78,6 +79,12 @@ public class MetaExampleKotlin : MetaLibrary {
       public fun successField(): MetaField<String> = successField
 
       public fun getSuccessMethod(): MetaGetSuccessMethod = getSuccessMethod
+
+      public companion object {
+        private final val self: LazyProperty<MetaRequestClass> = MetaClass.self(Request::class.java)
+
+        public fun request(): MetaRequestClass = self.get()
+      }
 
       public class MetaConstructorConstructor : MetaConstructor<Request> {
         private val successParameter: MetaParameter<String> = register(MetaParameter(0,
@@ -209,6 +216,13 @@ public class MetaExampleKotlin : MetaLibrary {
 
         public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
             = MetaMyCommunicatorProxy(invocations)
+
+        public companion object {
+          private final val self: LazyProperty<MetaMyCommunicatorClass> =
+              MetaClass.self(MyCommunicator::class.java)
+
+          public fun myCommunicator(): MetaMyCommunicatorClass = self.get()
+        }
 
         public class MetaMyMethodMethod : InstanceMetaMethod<MyCommunicator, Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
@@ -608,6 +622,13 @@ public class MetaExampleKotlin : MetaLibrary {
         public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
             = MetaMyPortalProxy(invocations)
 
+        public companion object {
+          private final val self: LazyProperty<MetaMyPortalClass> =
+              MetaClass.self(MyPortal::class.java)
+
+          public fun myPortal(): MetaMyPortalClass = self.get()
+        }
+
         public class MetaMyMethod : InstanceMetaMethod<MyPortal, MyCommunicator> {
           internal constructor() : super("my",metaType<MyCommunicator>(MyCommunicator::class.java))
 
@@ -727,6 +748,13 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun outputMethod(): MetaOutputMethod = outputMethod
 
         public fun cookieMethod(): MetaCookieMethod = cookieMethod
+
+        public companion object {
+          private final val self: LazyProperty<MetaMyServiceClass> =
+              MetaClass.self(MyService::class.java)
+
+          public fun myService(): MetaMyServiceClass = self.get()
+        }
 
         public class MetaMyMethodMethod : StaticMetaMethod<Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
@@ -1117,6 +1145,12 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun valueField(): MetaField<Sequence<String>> = valueField
 
         public fun getValueMethod(): MetaGetValueMethod = getValueMethod
+
+        public companion object {
+          private final val self: LazyProperty<MetaModelClass> = MetaClass.self(Model::class.java)
+
+          public fun model(): MetaModelClass = self.get()
+        }
 
         public class MetaConstructorConstructor : MetaConstructor<Model> {
           private val valueParameter: MetaParameter<Sequence<String>> = register(MetaParameter(0,
