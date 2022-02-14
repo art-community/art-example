@@ -11,6 +11,7 @@ import io.art.meta.model.MetaMethod
 import io.art.meta.model.MetaPackage
 import io.art.meta.model.MetaParameter
 import io.art.meta.model.MetaProxy
+import io.art.meta.model.MetaType.metaArray
 import io.art.meta.model.MetaType.metaEnum
 import io.art.meta.model.MetaType.metaType
 import io.art.meta.model.StaticMetaMethod
@@ -64,12 +65,14 @@ public class MetaExampleKotlin : MetaLibrary {
     public fun modelPackage(): MetaModelPackage = modelPackage
 
     public class MetaRequestClass : MetaClass<Request> {
-      private val `constructor`: MetaConstructorConstructor = register(MetaConstructorConstructor())
+      private val `constructor`: MetaConstructorConstructor =
+          register(MetaConstructorConstructor(this))
 
       private val successField: MetaField<String> =
-          register(MetaField("success", metaType<String>(String::class.java), false, null))
+          register(MetaField("success",metaType<String>(String::class.java),false,this))
 
-      private final val getSuccessMethod: MetaGetSuccessMethod = register(MetaGetSuccessMethod())
+      private final val getSuccessMethod: MetaGetSuccessMethod =
+          register(MetaGetSuccessMethod(this))
 
       internal constructor() : super(metaType<Request>(Request::class.java))
 
@@ -89,7 +92,8 @@ public class MetaExampleKotlin : MetaLibrary {
         private val successParameter: MetaParameter<String> = register(MetaParameter(0,
             "success",metaType<String>(String::class.java)))
 
-        internal constructor() : super(metaType<Request>(Request::class.java), null)
+        internal constructor(owner: MetaClass<*>) :
+            super(metaType<Request>(Request::class.java),owner)
 
         @Throws(Throwable::class)
         public override fun invoke(arguments: Array<Any>): Request {
@@ -105,7 +109,8 @@ public class MetaExampleKotlin : MetaLibrary {
       }
 
       public class MetaGetSuccessMethod : InstanceMetaMethod<Request, String> {
-        internal constructor() : super("getSuccess", metaType<String>(String::class.java), null)
+        internal constructor(owner: MetaClass<Any>) :
+            super("getSuccess",metaType<String>(String::class.java),owner)
 
         @Throws(Throwable::class)
         public override fun invoke(instance: Request): Any? = instance.success
@@ -128,48 +133,49 @@ public class MetaExampleKotlin : MetaLibrary {
       public fun myPortalClass(): MetaMyPortalClass = myPortalClass
 
       public class MetaMyCommunicatorClass : MetaClass<MyCommunicator> {
-        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod())
+        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod(this))
 
-        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
+        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod(this))
 
         private final val compensationMethod: MetaCompensationMethod =
-            register(MetaCompensationMethod())
+            register(MetaCompensationMethod(this))
 
-        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod())
+        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod(this))
 
-        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod())
+        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod(this))
 
-        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod())
+        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod(this))
 
-        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod())
+        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod(this))
 
-        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod())
+        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod(this))
 
-        private final val useOptionsMethod: MetaUseOptionsMethod = register(MetaUseOptionsMethod())
+        private final val useOptionsMethod: MetaUseOptionsMethod =
+            register(MetaUseOptionsMethod(this))
 
-        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod())
+        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod(this))
 
-        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod())
+        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod(this))
 
         private final val pathParameterMethod: MetaPathParameterMethod =
-            register(MetaPathParameterMethod())
+            register(MetaPathParameterMethod(this))
 
         private final val queryParameterMethod: MetaQueryParameterMethod =
-            register(MetaQueryParameterMethod())
+            register(MetaQueryParameterMethod(this))
 
-        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod())
+        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod(this))
 
-        private final val clientMethod: MetaClientMethod = register(MetaClientMethod())
+        private final val clientMethod: MetaClientMethod = register(MetaClientMethod(this))
 
-        private final val uriMethod: MetaUriMethod = register(MetaUriMethod())
+        private final val uriMethod: MetaUriMethod = register(MetaUriMethod(this))
 
-        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method())
+        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method(this))
 
-        private final val inputMethod: MetaInputMethod = register(MetaInputMethod())
+        private final val inputMethod: MetaInputMethod = register(MetaInputMethod(this))
 
-        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod())
+        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod(this))
 
-        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod())
+        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod(this))
 
         internal constructor() : super(metaType<MyCommunicator>(MyCommunicator::class.java))
 
@@ -227,7 +233,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
               "model",metaType<Model>(Model::class.java)))
 
-          internal constructor() : super("myMethod", metaType<Model>(Model::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("myMethod",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -243,7 +250,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaGetModelMethod : InstanceMetaMethod<MyCommunicator, Model> {
-          internal constructor() : super("getModel", metaType<Model>(Model::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("getModel",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -260,8 +268,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
               "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
 
-          internal constructor() :
-              super("compensation", metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -281,8 +289,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpCommunicationDecorator>>(UnaryOperator::class.java,metaType<HttpCommunicationDecorator>(HttpCommunicationDecorator::class.java))))
 
-          internal constructor() :
-              super("decorate", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("decorate",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -299,8 +307,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseGetMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("useGet", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useGet",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -314,8 +322,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePostMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("usePost", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePost",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -329,8 +337,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePutMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("usePut", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePut",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -344,8 +352,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePatchMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("usePatch", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePatch",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -359,8 +367,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseOptionsMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("useOptions", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useOptions",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -374,8 +382,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseHeadMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("useHead", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useHead",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -389,8 +397,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseWsMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor() :
-              super("useWs", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useWs",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -407,8 +415,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor() :
-              super("pathParameter", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("pathParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -430,8 +438,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p1Parameter: MetaParameter<String> = register(MetaParameter(1,
               "p1",metaType<String>(String::class.java)))
 
-          internal constructor() :
-              super("queryParameter", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("queryParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -448,8 +456,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpHeaders>>(UnaryOperator::class.java,metaType<HttpHeaders>(HttpHeaders::class.java))))
 
-          internal constructor() :
-              super("headers", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("headers",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -469,8 +477,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpClient>>(UnaryOperator::class.java,metaType<HttpClient>(HttpClient::class.java))))
 
-          internal constructor() :
-              super("client", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("client",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -489,7 +497,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor() : super("uri", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -508,7 +517,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<UnaryOperator<String>> = register(MetaParameter(0,
               "p0",metaType<UnaryOperator<String>>(UnaryOperator::class.java,metaType<String>(String::class.java))))
 
-          internal constructor() : super("uri", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -529,8 +539,8 @@ public class MetaExampleKotlin : MetaLibrary {
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor() :
-              super("input", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("input",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -551,8 +561,8 @@ public class MetaExampleKotlin : MetaLibrary {
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor() :
-              super("output", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("output",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -574,8 +584,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p1Parameter: MetaParameter<Cookie> = register(MetaParameter(1,
               "p1",metaType<Cookie>(Cookie::class.java)))
 
-          internal constructor() :
-              super("cookie", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("cookie",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyCommunicator, arguments: Array<Any>): Any? {
@@ -612,7 +622,7 @@ public class MetaExampleKotlin : MetaLibrary {
       }
 
       public class MetaMyPortalClass : MetaClass<MyPortal> {
-        private final val myMethod: MetaMyMethod = register(MetaMyMethod())
+        private final val myMethod: MetaMyMethod = register(MetaMyMethod(this))
 
         internal constructor() : super(metaType<MyPortal>(MyPortal::class.java))
 
@@ -629,7 +639,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaMyMethod : InstanceMetaMethod<MyPortal, MyCommunicator> {
-          internal constructor() : super("my", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("my",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
@@ -663,48 +674,49 @@ public class MetaExampleKotlin : MetaLibrary {
       public fun myServiceClass(): MetaMyServiceClass = myServiceClass
 
       public class MetaMyServiceClass : MetaClass<MyService> {
-        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod())
+        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod(this))
 
-        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod())
+        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod(this))
 
         private final val compensationMethod: MetaCompensationMethod =
-            register(MetaCompensationMethod())
+            register(MetaCompensationMethod(this))
 
-        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod())
+        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod(this))
 
-        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod())
+        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod(this))
 
-        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod())
+        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod(this))
 
-        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod())
+        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod(this))
 
-        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod())
+        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod(this))
 
-        private final val useOptionsMethod: MetaUseOptionsMethod = register(MetaUseOptionsMethod())
+        private final val useOptionsMethod: MetaUseOptionsMethod =
+            register(MetaUseOptionsMethod(this))
 
-        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod())
+        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod(this))
 
-        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod())
+        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod(this))
 
         private final val pathParameterMethod: MetaPathParameterMethod =
-            register(MetaPathParameterMethod())
+            register(MetaPathParameterMethod(this))
 
         private final val queryParameterMethod: MetaQueryParameterMethod =
-            register(MetaQueryParameterMethod())
+            register(MetaQueryParameterMethod(this))
 
-        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod())
+        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod(this))
 
-        private final val clientMethod: MetaClientMethod = register(MetaClientMethod())
+        private final val clientMethod: MetaClientMethod = register(MetaClientMethod(this))
 
-        private final val uriMethod: MetaUriMethod = register(MetaUriMethod())
+        private final val uriMethod: MetaUriMethod = register(MetaUriMethod(this))
 
-        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method())
+        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method(this))
 
-        private final val inputMethod: MetaInputMethod = register(MetaInputMethod())
+        private final val inputMethod: MetaInputMethod = register(MetaInputMethod(this))
 
-        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod())
+        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod(this))
 
-        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod())
+        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod(this))
 
         internal constructor() : super(metaType<MyService>(MyService::class.java))
 
@@ -759,7 +771,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
               "model",metaType<Model>(Model::class.java)))
 
-          internal constructor() : super("myMethod", metaType<Model>(Model::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("myMethod",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -775,7 +788,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaGetModelMethod : StaticMetaMethod<Model> {
-          internal constructor() : super("getModel", metaType<Model>(Model::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("getModel",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -792,8 +806,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
               "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
 
-          internal constructor() :
-              super("compensation", metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -813,8 +827,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpCommunicationDecorator>>(UnaryOperator::class.java,metaType<HttpCommunicationDecorator>(HttpCommunicationDecorator::class.java))))
 
-          internal constructor() :
-              super("decorate", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("decorate",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -831,8 +845,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseGetMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("useGet", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useGet",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -846,8 +860,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePostMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("usePost", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePost",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -861,8 +875,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePutMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("usePut", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePut",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -876,8 +890,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUsePatchMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("usePatch", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("usePatch",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -891,8 +905,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseOptionsMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("useOptions", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useOptions",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -906,8 +920,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseHeadMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("useHead", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useHead",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -921,8 +935,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaUseWsMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor() :
-              super("useWs", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("useWs",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -939,8 +953,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor() :
-              super("pathParameter", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("pathParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -962,8 +976,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p1Parameter: MetaParameter<String> = register(MetaParameter(1,
               "p1",metaType<String>(String::class.java)))
 
-          internal constructor() :
-              super("queryParameter", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("queryParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -980,8 +994,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpHeaders>>(UnaryOperator::class.java,metaType<HttpHeaders>(HttpHeaders::class.java))))
 
-          internal constructor() :
-              super("headers", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("headers",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1001,8 +1015,8 @@ public class MetaExampleKotlin : MetaLibrary {
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpClient>>(UnaryOperator::class.java,metaType<HttpClient>(HttpClient::class.java))))
 
-          internal constructor() :
-              super("client", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("client",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1021,7 +1035,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor() : super("uri", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1040,7 +1055,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p0Parameter: MetaParameter<UnaryOperator<String>> = register(MetaParameter(0,
               "p0",metaType<UnaryOperator<String>>(UnaryOperator::class.java,metaType<String>(String::class.java))))
 
-          internal constructor() : super("uri", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1061,8 +1077,8 @@ public class MetaExampleKotlin : MetaLibrary {
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor() :
-              super("input", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("input",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1083,8 +1099,8 @@ public class MetaExampleKotlin : MetaLibrary {
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor() :
-              super("output", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("output",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1106,8 +1122,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val p1Parameter: MetaParameter<Cookie> = register(MetaParameter(1,
               "p1",metaType<Cookie>(Cookie::class.java)))
 
-          internal constructor() :
-              super("cookie", metaType<MyCommunicator>(MyCommunicator::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("cookie",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Any? {
@@ -1130,12 +1146,12 @@ public class MetaExampleKotlin : MetaLibrary {
 
       public class MetaModelClass : MetaClass<Model> {
         private val `constructor`: MetaConstructorConstructor =
-            register(MetaConstructorConstructor())
+            register(MetaConstructorConstructor(this))
 
         private val valueField: MetaField<Sequence<String>> =
-            register(MetaField("value", metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)), false, null))
+            register(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false,this))
 
-        private final val getValueMethod: MetaGetValueMethod = register(MetaGetValueMethod())
+        private final val getValueMethod: MetaGetValueMethod = register(MetaGetValueMethod(this))
 
         internal constructor() : super(metaType<Model>(Model::class.java))
 
@@ -1155,7 +1171,8 @@ public class MetaExampleKotlin : MetaLibrary {
           private val valueParameter: MetaParameter<Sequence<String>> = register(MetaParameter(0,
               "value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java))))
 
-          internal constructor() : super(metaType<Model>(Model::class.java), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super(metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(arguments: Array<Any>): Model {
@@ -1171,8 +1188,8 @@ public class MetaExampleKotlin : MetaLibrary {
         }
 
         public class MetaGetValueMethod : InstanceMetaMethod<Model, Sequence<String>> {
-          internal constructor() :
-              super("getValue", metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)), null)
+          internal constructor(owner: MetaClass<Any>) :
+              super("getValue",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)
           public override fun invoke(instance: Model): Any? = instance.`value`
