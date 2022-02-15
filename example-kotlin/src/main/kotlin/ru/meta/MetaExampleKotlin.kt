@@ -627,9 +627,10 @@ public class MetaExampleKotlin : MetaLibrary {
 
           public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
               super(invocations) {
-            myMethodInvocation = invocations[myMethodMethod]!!
-            getModelInvocation = invocations[getModelMethod]!!
-            compensationInvocation = invocations[compensationMethod]!!
+            myMethodInvocation = invocations[myMethodMethod as MetaMethod<MetaClass<*>, *>]!!
+            getModelInvocation = invocations[getModelMethod as MetaMethod<MetaClass<*>, *>]!!
+            compensationInvocation = invocations[compensationMethod as
+                MetaMethod<MetaClass<*>, *>]!!
           }
 
           public override fun myMethod(model: Model): Model = myMethodInvocation.apply(model) as
@@ -681,7 +682,7 @@ public class MetaExampleKotlin : MetaLibrary {
 
           public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
               super(invocations) {
-            myInvocation = invocations[myMethod]!!
+            myInvocation = invocations[myMethod as MetaMethod<MetaClass<*>, *>]!!
           }
 
           public override fun my(): MyCommunicator = myInvocation.apply(null) as MyCommunicator
