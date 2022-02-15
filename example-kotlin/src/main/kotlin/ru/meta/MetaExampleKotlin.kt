@@ -220,7 +220,7 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun cookieMethod(): MetaCookieMethod = cookieMethod
 
         public override
-            fun proxy(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>):
+            fun proxy(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>):
             MetaProxy = MetaMyCommunicatorProxy(invocations)
 
         public companion object {
@@ -625,8 +625,8 @@ public class MetaExampleKotlin : MetaLibrary {
 
           private final val compensationInvocation: Function<Any?, Any?>
 
-          public constructor(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>)
-              : super(invocations) {
+          public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
+              super(invocations) {
             myMethodInvocation = invocations[myMethodMethod]!!
             getModelInvocation = invocations[getModelMethod]!!
             compensationInvocation = invocations[compensationMethod]!!
@@ -650,7 +650,7 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun myMethod(): MetaMyMethod = myMethod
 
         public override
-            fun proxy(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>):
+            fun proxy(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>):
             MetaProxy = MetaMyPortalProxy(invocations)
 
         public companion object {
@@ -679,8 +679,8 @@ public class MetaExampleKotlin : MetaLibrary {
         public inner class MetaMyPortalProxy : MetaProxy, MyPortal {
           private final val myInvocation: Function<Any?, Any?>
 
-          public constructor(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>)
-              : super(invocations) {
+          public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
+              super(invocations) {
             myInvocation = invocations[myMethod]!!
           }
 
