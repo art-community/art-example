@@ -68,7 +68,7 @@ public class MetaExampleKotlin : MetaLibrary {
       private val `constructor`: MetaConstructorConstructor =
           register(MetaConstructorConstructor(this))
 
-      private val successField: MetaField<String> =
+      private val successField: MetaField<MetaRequestClass, String> =
           register(MetaField("success",metaType<String>(String::class.java),false,this))
 
       private final val getSuccessMethod: MetaGetSuccessMethod =
@@ -78,7 +78,7 @@ public class MetaExampleKotlin : MetaLibrary {
 
       public fun `constructor`(): MetaConstructorConstructor = constructor
 
-      public fun successField(): MetaField<String> = successField
+      public fun successField(): MetaField<MetaRequestClass, String> = successField
 
       public fun getSuccessMethod(): MetaGetSuccessMethod = getSuccessMethod
 
@@ -88,11 +88,11 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun request(): MetaRequestClass = self.get()
       }
 
-      public class MetaConstructorConstructor : MetaConstructor<Request> {
+      public class MetaConstructorConstructor : MetaConstructor<MetaRequestClass, Request> {
         private val successParameter: MetaParameter<String> = register(MetaParameter(0,
             "success",metaType<String>(String::class.java)))
 
-        internal constructor(owner: MetaClass<Request>) :
+        internal constructor(owner: MetaRequestClass) :
             super(metaType<Request>(Request::class.java),owner)
 
         @Throws(Throwable::class)
@@ -108,8 +108,8 @@ public class MetaExampleKotlin : MetaLibrary {
         public fun successParameter(): MetaParameter<String> = successParameter
       }
 
-      public class MetaGetSuccessMethod : InstanceMetaMethod<Request, String> {
-        internal constructor(owner: MetaClass<out Any>) :
+      public class MetaGetSuccessMethod : InstanceMetaMethod<MetaRequestClass, Request, String> {
+        internal constructor(owner: MetaRequestClass) :
             super("getSuccess",metaType<String>(String::class.java),owner)
 
         @Throws(Throwable::class)
@@ -219,8 +219,9 @@ public class MetaExampleKotlin : MetaLibrary {
 
         public fun cookieMethod(): MetaCookieMethod = cookieMethod
 
-        public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
-            = MetaMyCommunicatorProxy(invocations)
+        public override
+            fun proxy(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>):
+            MetaProxy = MetaMyCommunicatorProxy(invocations)
 
         public companion object {
           private final val self: LazyProperty<MetaMyCommunicatorClass> =
@@ -229,11 +230,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun myCommunicator(): MetaMyCommunicatorClass = self.get()
         }
 
-        public class MetaMyMethodMethod : InstanceMetaMethod<MyCommunicator, Model> {
+        public class MetaMyMethodMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
               "model",metaType<Model>(Model::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("myMethod",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
@@ -249,8 +251,9 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun modelParameter(): MetaParameter<Model> = modelParameter
         }
 
-        public class MetaGetModelMethod : InstanceMetaMethod<MyCommunicator, Model> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaGetModelMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, Model> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("getModel",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
@@ -264,11 +267,12 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaCompensationMethod : InstanceMetaMethod<MyCommunicator, Mono<String>> {
+        public class MetaCompensationMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, Mono<String>> {
           private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
               "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)
@@ -284,12 +288,13 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun inputParameter(): MetaParameter<Flux<String>> = inputParameter
         }
 
-        public class MetaDecorateMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaDecorateMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpCommunicationDecorator>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpCommunicationDecorator>>(UnaryOperator::class.java,metaType<HttpCommunicationDecorator>(HttpCommunicationDecorator::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("decorate",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -306,8 +311,9 @@ public class MetaExampleKotlin : MetaLibrary {
               p0Parameter
         }
 
-        public class MetaUseGetMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseGetMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("useGet",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -321,8 +327,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePostMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePostMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("usePost",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -336,8 +343,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePutMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePutMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("usePut",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -351,8 +359,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePatchMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePatchMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("usePatch",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -366,8 +375,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseOptionsMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseOptionsMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("useOptions",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -381,8 +391,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseHeadMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseHeadMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("useHead",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -396,8 +407,9 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseWsMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseWsMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("useWs",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -411,11 +423,12 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaPathParameterMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaPathParameterMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("pathParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -431,14 +444,15 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<String> = p0Parameter
         }
 
-        public class MetaQueryParameterMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaQueryParameterMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
           private val p1Parameter: MetaParameter<String> = register(MetaParameter(1,
               "p1",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("queryParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -451,12 +465,13 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p1Parameter(): MetaParameter<String> = p1Parameter
         }
 
-        public class MetaHeadersMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaHeadersMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpHeaders>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpHeaders>>(UnaryOperator::class.java,metaType<HttpHeaders>(HttpHeaders::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("headers",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -472,12 +487,13 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<HttpHeaders>> = p0Parameter
         }
 
-        public class MetaClientMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaClientMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpClient>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpClient>>(UnaryOperator::class.java,metaType<HttpClient>(HttpClient::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("client",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -493,11 +509,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<HttpClient>> = p0Parameter
         }
 
-        public class MetaUriMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaUriMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -513,11 +530,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<String> = p0Parameter
         }
 
-        public class MetaUri_1Method : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaUri_1Method :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<String>> = register(MetaParameter(0,
               "p0",metaType<UnaryOperator<String>>(UnaryOperator::class.java,metaType<String>(String::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -533,13 +551,14 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<String>> = p0Parameter
         }
 
-        public class MetaInputMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaInputMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<TransportModuleConstants.DataFormat> =
               register(MetaParameter(0,
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("input",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -555,13 +574,14 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<TransportModuleConstants.DataFormat> = p0Parameter
         }
 
-        public class MetaOutputMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaOutputMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<TransportModuleConstants.DataFormat> =
               register(MetaParameter(0,
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("output",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -577,14 +597,15 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<TransportModuleConstants.DataFormat> = p0Parameter
         }
 
-        public class MetaCookieMethod : InstanceMetaMethod<MyCommunicator, MyCommunicator> {
+        public class MetaCookieMethod :
+            InstanceMetaMethod<MetaMyCommunicatorClass, MyCommunicator, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
           private val p1Parameter: MetaParameter<Cookie> = register(MetaParameter(1,
               "p1",metaType<Cookie>(Cookie::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyCommunicatorClass) :
               super("cookie",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -604,8 +625,8 @@ public class MetaExampleKotlin : MetaLibrary {
 
           private final val compensationInvocation: Function<Any?, Any?>
 
-          public constructor(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>) :
-              super(invocations) {
+          public constructor(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>)
+              : super(invocations) {
             myMethodInvocation = invocations[myMethodMethod]!!
             getModelInvocation = invocations[getModelMethod]!!
             compensationInvocation = invocations[compensationMethod]!!
@@ -628,8 +649,9 @@ public class MetaExampleKotlin : MetaLibrary {
 
         public fun myMethod(): MetaMyMethod = myMethod
 
-        public override fun proxy(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>): MetaProxy
-            = MetaMyPortalProxy(invocations)
+        public override
+            fun proxy(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>):
+            MetaProxy = MetaMyPortalProxy(invocations)
 
         public companion object {
           private final val self: LazyProperty<MetaMyPortalClass> =
@@ -638,8 +660,9 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun myPortal(): MetaMyPortalClass = self.get()
         }
 
-        public class MetaMyMethod : InstanceMetaMethod<MyPortal, MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaMyMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, MyCommunicator>
+            {
+          internal constructor(owner: MetaMyPortalClass) :
               super("my",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -656,8 +679,8 @@ public class MetaExampleKotlin : MetaLibrary {
         public inner class MetaMyPortalProxy : MetaProxy, MyPortal {
           private final val myInvocation: Function<Any?, Any?>
 
-          public constructor(invocations: Map<MetaMethod<*>, Function<Any?, Any?>>) :
-              super(invocations) {
+          public constructor(invocations: Map<MetaMethod<MetaClass<Any?>, *>, Function<Any?, Any?>>)
+              : super(invocations) {
             myInvocation = invocations[myMethod]!!
           }
 
@@ -767,11 +790,11 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun myService(): MetaMyServiceClass = self.get()
         }
 
-        public class MetaMyMethodMethod : StaticMetaMethod<Model> {
+        public class MetaMyMethodMethod : StaticMetaMethod<MetaMyServiceClass, Model> {
           private val modelParameter: MetaParameter<Model> = register(MetaParameter(0,
               "model",metaType<Model>(Model::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("myMethod",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
@@ -787,8 +810,8 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun modelParameter(): MetaParameter<Model> = modelParameter
         }
 
-        public class MetaGetModelMethod : StaticMetaMethod<Model> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaGetModelMethod : StaticMetaMethod<MetaMyServiceClass, Model> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("getModel",metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
@@ -802,11 +825,11 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaCompensationMethod : StaticMetaMethod<Mono<String>> {
+        public class MetaCompensationMethod : StaticMetaMethod<MetaMyServiceClass, Mono<String>> {
           private val inputParameter: MetaParameter<Flux<String>> = register(MetaParameter(0,
               "input",metaType<Flux<String>>(Flux::class.java,metaType<String>(String::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("compensation",metaType<Mono<String>>(Mono::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)
@@ -822,12 +845,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun inputParameter(): MetaParameter<Flux<String>> = inputParameter
         }
 
-        public class MetaDecorateMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaDecorateMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpCommunicationDecorator>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpCommunicationDecorator>>(UnaryOperator::class.java,metaType<HttpCommunicationDecorator>(HttpCommunicationDecorator::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("decorate",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -844,8 +867,8 @@ public class MetaExampleKotlin : MetaLibrary {
               p0Parameter
         }
 
-        public class MetaUseGetMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseGetMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("useGet",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -859,8 +882,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePostMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePostMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("usePost",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -874,8 +897,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePutMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePutMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("usePut",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -889,8 +912,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUsePatchMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUsePatchMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("usePatch",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -904,8 +927,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseOptionsMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseOptionsMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("useOptions",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -919,8 +942,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseHeadMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseHeadMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("useHead",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -934,8 +957,8 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaUseWsMethod : StaticMetaMethod<MyCommunicator> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaUseWsMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
+          internal constructor(owner: MetaMyServiceClass) :
               super("useWs",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -949,11 +972,12 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
-        public class MetaPathParameterMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaPathParameterMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator>
+            {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("pathParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -969,14 +993,15 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<String> = p0Parameter
         }
 
-        public class MetaQueryParameterMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaQueryParameterMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator>
+            {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
           private val p1Parameter: MetaParameter<String> = register(MetaParameter(1,
               "p1",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("queryParameter",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -989,12 +1014,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p1Parameter(): MetaParameter<String> = p1Parameter
         }
 
-        public class MetaHeadersMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaHeadersMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpHeaders>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpHeaders>>(UnaryOperator::class.java,metaType<HttpHeaders>(HttpHeaders::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("headers",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1010,12 +1035,12 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<HttpHeaders>> = p0Parameter
         }
 
-        public class MetaClientMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaClientMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<HttpClient>> =
               register(MetaParameter(0,
               "p0",metaType<UnaryOperator<HttpClient>>(UnaryOperator::class.java,metaType<HttpClient>(HttpClient::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("client",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1031,11 +1056,11 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<HttpClient>> = p0Parameter
         }
 
-        public class MetaUriMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaUriMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1051,11 +1076,11 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<String> = p0Parameter
         }
 
-        public class MetaUri_1Method : StaticMetaMethod<MyCommunicator> {
+        public class MetaUri_1Method : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<UnaryOperator<String>> = register(MetaParameter(0,
               "p0",metaType<UnaryOperator<String>>(UnaryOperator::class.java,metaType<String>(String::class.java))))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("uri",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1071,13 +1096,13 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<UnaryOperator<String>> = p0Parameter
         }
 
-        public class MetaInputMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaInputMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<TransportModuleConstants.DataFormat> =
               register(MetaParameter(0,
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("input",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1093,13 +1118,13 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<TransportModuleConstants.DataFormat> = p0Parameter
         }
 
-        public class MetaOutputMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaOutputMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<TransportModuleConstants.DataFormat> =
               register(MetaParameter(0,
               "p0",metaEnum(TransportModuleConstants.DataFormat::class.java,
               TransportModuleConstants.DataFormat::valueOf)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("output",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1115,14 +1140,14 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun p0Parameter(): MetaParameter<TransportModuleConstants.DataFormat> = p0Parameter
         }
 
-        public class MetaCookieMethod : StaticMetaMethod<MyCommunicator> {
+        public class MetaCookieMethod : StaticMetaMethod<MetaMyServiceClass, MyCommunicator> {
           private val p0Parameter: MetaParameter<String> = register(MetaParameter(0,
               "p0",metaType<String>(String::class.java)))
 
           private val p1Parameter: MetaParameter<Cookie> = register(MetaParameter(1,
               "p1",metaType<Cookie>(Cookie::class.java)))
 
-          internal constructor(owner: MetaClass<out Any>) :
+          internal constructor(owner: MetaMyServiceClass) :
               super("cookie",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1148,7 +1173,7 @@ public class MetaExampleKotlin : MetaLibrary {
         private val `constructor`: MetaConstructorConstructor =
             register(MetaConstructorConstructor(this))
 
-        private val valueField: MetaField<Sequence<String>> =
+        private val valueField: MetaField<MetaModelClass, Sequence<String>> =
             register(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false,this))
 
         private final val getValueMethod: MetaGetValueMethod = register(MetaGetValueMethod(this))
@@ -1157,7 +1182,7 @@ public class MetaExampleKotlin : MetaLibrary {
 
         public fun `constructor`(): MetaConstructorConstructor = constructor
 
-        public fun valueField(): MetaField<Sequence<String>> = valueField
+        public fun valueField(): MetaField<MetaModelClass, Sequence<String>> = valueField
 
         public fun getValueMethod(): MetaGetValueMethod = getValueMethod
 
@@ -1167,11 +1192,11 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun model(): MetaModelClass = self.get()
         }
 
-        public class MetaConstructorConstructor : MetaConstructor<Model> {
+        public class MetaConstructorConstructor : MetaConstructor<MetaModelClass, Model> {
           private val valueParameter: MetaParameter<Sequence<String>> = register(MetaParameter(0,
               "value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java))))
 
-          internal constructor(owner: MetaClass<Model>) :
+          internal constructor(owner: MetaModelClass) :
               super(metaType<Model>(Model::class.java),owner)
 
           @Throws(Throwable::class)
@@ -1187,8 +1212,9 @@ public class MetaExampleKotlin : MetaLibrary {
           public fun valueParameter(): MetaParameter<Sequence<String>> = valueParameter
         }
 
-        public class MetaGetValueMethod : InstanceMetaMethod<Model, Sequence<String>> {
-          internal constructor(owner: MetaClass<out Any>) :
+        public class MetaGetValueMethod :
+            InstanceMetaMethod<MetaModelClass, Model, Sequence<String>> {
+          internal constructor(owner: MetaModelClass) :
               super("getValue",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),owner)
 
           @Throws(Throwable::class)

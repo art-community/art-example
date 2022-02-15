@@ -1,6 +1,7 @@
 package ru.meta;
 
 import static io.art.meta.model.MetaType.metaArray;
+import static io.art.meta.model.MetaType.metaEnum;
 import static io.art.meta.model.MetaType.metaType;
 
 import io.art.core.property.LazyProperty;
@@ -14,10 +15,6 @@ import io.art.meta.model.MetaPackage;
 import io.art.meta.model.MetaParameter;
 import io.art.meta.model.MetaProxy;
 import io.art.meta.model.StaticMetaMethod;
-import ru.*;
-import ru.communicator.*;
-import ru.model.*;
-import ru.service.*;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -85,8 +82,8 @@ public class MetaExampleJava extends MetaLibrary {
         return mainMethod;
       }
 
-      public final class MetaConstructorConstructor extends MetaConstructor<MetaClass<?>, Example> {
-        private MetaConstructorConstructor(MetaClass owner) {
+      public final class MetaConstructorConstructor extends MetaConstructor<MetaExampleClass, ru.Example> {
+        private MetaConstructorConstructor(MetaExampleClass owner) {
           super(metaType(ru.Example.class),owner);
         }
 
@@ -101,10 +98,10 @@ public class MetaExampleJava extends MetaLibrary {
         }
       }
 
-      public final class MetaMainMethod extends StaticMetaMethod<MetaClass<?>, Void> {
+      public final class MetaMainMethod extends StaticMetaMethod<MetaExampleClass, Void> {
         private final MetaParameter<java.lang.String[]> argumentsParameter = register(new MetaParameter<>(0, "arguments",metaArray(java.lang.String[].class, java.lang.String[]::new, metaType(java.lang.String.class))));
 
-        private MetaMainMethod(MetaClass owner) {
+        private MetaMainMethod(MetaExampleClass owner) {
           super("main",metaType(Void.class),owner);
         }
 
@@ -172,10 +169,10 @@ public class MetaExampleJava extends MetaLibrary {
           return new MetaMyCommunicatorProxy(invocations);
         }
 
-        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaClass<?>, MyCommunicator, Model> {
+        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaMyCommunicatorClass, ru.communicator.MyCommunicator, ru.model.Model> {
           private final MetaParameter<ru.model.Model> requestParameter = register(new MetaParameter<>(0, "request",metaType(ru.model.Model.class)));
 
-          private MetaMyMethodMethod(MetaClass owner) {
+          private MetaMyMethodMethod(MetaMyCommunicatorClass owner) {
             super("myMethod",metaType(ru.model.Model.class),owner);
           }
 
@@ -196,8 +193,8 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
-        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaClass<?>, MyCommunicator, Model> {
-          private MetaGetModelMethod(MetaClass owner) {
+        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaMyCommunicatorClass, ru.communicator.MyCommunicator, ru.model.Model> {
+          private MetaGetModelMethod(MetaMyCommunicatorClass owner) {
             super("getModel",metaType(ru.model.Model.class),owner);
           }
 
@@ -260,8 +257,8 @@ public class MetaExampleJava extends MetaLibrary {
           return new MetaMyConnectorProxy(invocations);
         }
 
-        public final class MetaMyMethod extends InstanceMetaMethod<MetaClass<?>, MyConnector, MyCommunicator> {
-          private MetaMyMethod(MetaClass owner) {
+        public final class MetaMyMethod extends InstanceMetaMethod<MetaMyConnectorClass, ru.communicator.MyConnector, ru.communicator.MyCommunicator> {
+          private MetaMyMethod(MetaMyConnectorClass owner) {
             super("my",metaType(ru.communicator.MyCommunicator.class),owner);
           }
 
@@ -310,7 +307,7 @@ public class MetaExampleJava extends MetaLibrary {
 
         private final MetaConstructorConstructor constructor = register(new MetaConstructorConstructor(this));
 
-        private final MetaField<MetaClass<?>, String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false,this));
+        private final MetaField<MetaModelClass, java.lang.String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false,this));
 
         private final MetaToBuilderMethod toBuilderMethod = register(new MetaToBuilderMethod(this));
 
@@ -330,7 +327,7 @@ public class MetaExampleJava extends MetaLibrary {
           return constructor;
         }
 
-        public MetaField<MetaClass<?>, String> valueField() {
+        public MetaField<MetaModelClass, java.lang.String> valueField() {
           return valueField;
         }
 
@@ -346,10 +343,10 @@ public class MetaExampleJava extends MetaLibrary {
           return modelBuilderClass;
         }
 
-        public final class MetaConstructorConstructor extends MetaConstructor<MetaClass<?>, Model> {
+        public final class MetaConstructorConstructor extends MetaConstructor<MetaModelClass, ru.model.Model> {
           private final MetaParameter<java.lang.String> valueParameter = register(new MetaParameter<>(0, "value",metaType(java.lang.String.class)));
 
-          private MetaConstructorConstructor(MetaClass owner) {
+          private MetaConstructorConstructor(MetaModelClass owner) {
             super(metaType(ru.model.Model.class),owner);
           }
 
@@ -368,8 +365,8 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
-        public final class MetaToBuilderMethod extends InstanceMetaMethod<MetaClass<?>, Model, Model.ModelBuilder> {
-          private MetaToBuilderMethod(MetaClass owner) {
+        public final class MetaToBuilderMethod extends InstanceMetaMethod<MetaModelClass, ru.model.Model, ru.model.Model.ModelBuilder> {
+          private MetaToBuilderMethod(MetaModelClass owner) {
             super("toBuilder",metaType(ru.model.Model.ModelBuilder.class),owner);
           }
 
@@ -385,8 +382,8 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
-        public final class MetaGetValueMethod extends InstanceMetaMethod<MetaClass<?>, Model, String> {
-          private MetaGetValueMethod(MetaClass owner) {
+        public final class MetaGetValueMethod extends InstanceMetaMethod<MetaModelClass, ru.model.Model, java.lang.String> {
+          private MetaGetValueMethod(MetaModelClass owner) {
             super("getValue",metaType(java.lang.String.class),owner);
           }
 
@@ -405,7 +402,7 @@ public class MetaExampleJava extends MetaLibrary {
         public static final class MetaModelBuilderClass extends MetaClass<ru.model.Model.ModelBuilder> {
           private static final LazyProperty<MetaModelBuilderClass> self = MetaClass.self(ru.model.Model.ModelBuilder.class);
 
-          private final MetaField<MetaClass<?>, String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false,this));
+          private final MetaField<MetaModelBuilderClass, java.lang.String> valueField = register(new MetaField<>("value",metaType(java.lang.String.class),false,this));
 
           private final MetaValueMethod valueMethod = register(new MetaValueMethod(this));
 
@@ -419,7 +416,7 @@ public class MetaExampleJava extends MetaLibrary {
             return self.get();
           }
 
-          public MetaField<MetaClass<?>, String> valueField() {
+          public MetaField<MetaModelBuilderClass, java.lang.String> valueField() {
             return valueField;
           }
 
@@ -431,10 +428,10 @@ public class MetaExampleJava extends MetaLibrary {
             return buildMethod;
           }
 
-          public final class MetaValueMethod extends InstanceMetaMethod<MetaClass<?>, Model.ModelBuilder, Model.ModelBuilder> {
+          public final class MetaValueMethod extends InstanceMetaMethod<MetaModelBuilderClass, ru.model.Model.ModelBuilder, ru.model.Model.ModelBuilder> {
             private final MetaParameter<java.lang.String> valueParameter = register(new MetaParameter<>(0, "value",metaType(java.lang.String.class)));
 
-            private MetaValueMethod(MetaClass owner) {
+            private MetaValueMethod(MetaModelBuilderClass owner) {
               super("value",metaType(ru.model.Model.ModelBuilder.class),owner);
             }
 
@@ -455,8 +452,8 @@ public class MetaExampleJava extends MetaLibrary {
             }
           }
 
-          public final class MetaBuildMethod extends InstanceMetaMethod<MetaClass<?>, Model.ModelBuilder, Model> {
-            private MetaBuildMethod(MetaClass owner) {
+          public final class MetaBuildMethod extends InstanceMetaMethod<MetaModelBuilderClass, ru.model.Model.ModelBuilder, ru.model.Model> {
+            private MetaBuildMethod(MetaModelBuilderClass owner) {
               super("build",metaType(ru.model.Model.class),owner);
             }
 
@@ -515,8 +512,8 @@ public class MetaExampleJava extends MetaLibrary {
           return getModelMethod;
         }
 
-        public final class MetaConstructorConstructor extends MetaConstructor<MetaClass<?>, MyService> {
-          private MetaConstructorConstructor(MetaClass owner) {
+        public final class MetaConstructorConstructor extends MetaConstructor<MetaMyServiceClass, ru.service.MyService> {
+          private MetaConstructorConstructor(MetaMyServiceClass owner) {
             super(metaType(ru.service.MyService.class),owner);
           }
 
@@ -531,10 +528,10 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
-        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaClass<?>, MyService, Model> {
+        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
           private final MetaParameter<ru.model.Model> modelParameter = register(new MetaParameter<>(0, "model",metaType(ru.model.Model.class)));
 
-          private MetaMyMethodMethod(MetaClass owner) {
+          private MetaMyMethodMethod(MetaMyServiceClass owner) {
             super("myMethod",metaType(ru.model.Model.class),owner);
           }
 
@@ -555,8 +552,8 @@ public class MetaExampleJava extends MetaLibrary {
           }
         }
 
-        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaClass<?>, MyService, Model> {
-          private MetaGetModelMethod(MetaClass owner) {
+        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
+          private MetaGetModelMethod(MetaMyServiceClass owner) {
             super("getModel",metaType(ru.model.Model.class),owner);
           }
 
