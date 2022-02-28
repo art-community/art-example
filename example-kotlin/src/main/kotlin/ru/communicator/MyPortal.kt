@@ -1,7 +1,7 @@
 package ru.communicator
 
-import io.art.communicator.Portal
+import io.art.communicator.ConnectorIdentifier
 
-interface MyPortal : Portal {
+interface MyPortal : ConnectorIdentifier {
     fun my(): MyCommunicator
 }
