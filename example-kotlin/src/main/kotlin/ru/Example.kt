@@ -10,7 +10,7 @@ import io.art.meta.kotlin.meta
 import io.art.rsocket.kotlin.rsocket
 import io.art.transport.kotlin.transport
 import io.art.yaml.kotlin.yaml
-import ru.communicator.MyPortal
+import ru.communicator.MyCommunicator
 import ru.meta.MetaExampleKotlin
 import ru.service.MyService
 
@@ -25,12 +25,12 @@ fun main() = activator {
     messagePack()
     transport()
     rsocket {
-        server { server -> server.tcp().service(MyService::class.java) }
-        communicator { communicator -> communicator.tcp(MyPortal::class.java) }
+        server { server -> server.tcp().configure { configurator -> configurator.service(MyService::class.java) } }
+        communicator { communicator -> communicator.tcp(MyCommunicator::class.java) }
     }
     http {
         server { server -> server.routes(MyService::class.java) }
-        communicator { communicator -> communicator.connector(MyPortal::class.java) }
+        communicator { communicator -> communicator.connector(MyCommunicator::class.java) }
     }
     launch().block()
 }
