@@ -30,18 +30,16 @@ public class Example {
                 .module(yaml())
                 .module(transport())
                 .module(rsocket(rsocket -> rsocket
-                        .server(server -> server.tcp().service(MyService.class))
-                        .communicator(communicator -> communicator.tcp(MyConnector.class))))
+                        .server(server -> server.tcp().configure(configurator -> configurator.service(MyService.class)))
+                        .communicator(communicator -> communicator.tcp(MyCommunicator.class))))
                 .module(http(http -> http
                         .server(server -> server.routes(MyService.class))
-                        .communicator(communicator -> communicator.connector(MyConnector.class))))
+                        .communicator(communicator -> communicator.connector(MyCommunicator.class))))
                 .onLaunch(() -> {
-                    logger().info(Rsocket.rsocket(MyConnector.class)
-                            .my()
+                    logger().info(Rsocket.rsocket(MyCommunicator.class)
                             .myMethod(Model.builder().value("request").build())
                             .toString());
-                    logger().info(Http.http(MyConnector.class)
-                            .my()
+                    logger().info(Http.http(MyCommunicator.class)
                             .getModel()
                             .toString());
                 })

@@ -126,18 +126,12 @@ public class MetaExampleJava extends MetaLibrary {
     public static final class MetaCommunicatorPackage extends MetaPackage {
       private final MetaMyCommunicatorClass myCommunicatorClass = register(new MetaMyCommunicatorClass());
 
-      private final MetaMyConnectorClass myConnectorClass = register(new MetaMyConnectorClass());
-
       private MetaCommunicatorPackage() {
         super("communicator");
       }
 
       public MetaMyCommunicatorClass myCommunicatorClass() {
         return myCommunicatorClass;
-      }
-
-      public MetaMyConnectorClass myConnectorClass() {
-        return myConnectorClass;
       }
 
       public static final class MetaMyCommunicatorClass extends MetaClass<ru.communicator.MyCommunicator> {
@@ -230,62 +224,6 @@ public class MetaExampleJava extends MetaLibrary {
           @Override
           public ru.model.Model getModel() {
             return (ru.model.Model)(getModelInvocation.apply(null));
-          }
-        }
-      }
-
-      public static final class MetaMyConnectorClass extends MetaClass<ru.communicator.MyConnector> {
-        private static final LazyProperty<MetaMyConnectorClass> self = MetaClass.self(ru.communicator.MyConnector.class);
-
-        private final MetaMyMethod myMethod = register(new MetaMyMethod(this));
-
-        private MetaMyConnectorClass() {
-          super(metaType(ru.communicator.MyConnector.class));
-        }
-
-        public static MetaMyConnectorClass myConnector() {
-          return self.get();
-        }
-
-        public MetaMyMethod myMethod() {
-          return myMethod;
-        }
-
-        @Override
-        public MetaProxy proxy(
-            Map<MetaMethod<MetaClass<?>, ?>, Function<java.lang.Object, java.lang.Object>> invocations) {
-          return new MetaMyConnectorProxy(invocations);
-        }
-
-        public final class MetaMyMethod extends InstanceMetaMethod<MetaMyConnectorClass, ru.communicator.MyConnector, ru.communicator.MyCommunicator> {
-          private MetaMyMethod(MetaMyConnectorClass owner) {
-            super("my",metaType(ru.communicator.MyCommunicator.class),owner);
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.communicator.MyConnector instance,
-              java.lang.Object[] arguments) throws Throwable {
-            return instance.my();
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.communicator.MyConnector instance) throws Throwable {
-            return instance.my();
-          }
-        }
-
-        public class MetaMyConnectorProxy extends MetaProxy implements ru.communicator.MyConnector {
-          private final Function<java.lang.Object, java.lang.Object> myInvocation;
-
-          public MetaMyConnectorProxy(
-              Map<MetaMethod<MetaClass<?>, ?>, Function<java.lang.Object, java.lang.Object>> invocations) {
-            super(invocations);
-            myInvocation = invocations.get(myMethod);
-          }
-
-          @Override
-          public ru.communicator.MyCommunicator my() {
-            return (ru.communicator.MyCommunicator)(myInvocation.apply(null));
           }
         }
       }

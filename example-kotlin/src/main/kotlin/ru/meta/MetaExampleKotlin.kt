@@ -33,7 +33,6 @@ import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
 import ru.Request
 import ru.communicator.MyCommunicator
-import ru.communicator.MyPortal
 import ru.model.Model
 import ru.service.MyService
 
@@ -124,13 +123,9 @@ public class MetaExampleKotlin : MetaLibrary {
     public class MetaCommunicatorPackage : MetaPackage {
       private val myCommunicatorClass: MetaMyCommunicatorClass = register(MetaMyCommunicatorClass())
 
-      private val myPortalClass: MetaMyPortalClass = register(MetaMyPortalClass())
-
       internal constructor() : super("communicator")
 
       public fun myCommunicatorClass(): MetaMyCommunicatorClass = myCommunicatorClass
-
-      public fun myPortalClass(): MetaMyPortalClass = myPortalClass
 
       public class MetaMyCommunicatorClass : MetaClass<MyCommunicator> {
         private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod(this))
@@ -640,95 +635,6 @@ public class MetaExampleKotlin : MetaLibrary {
 
           public override fun compensation(input: Flux<String>): Mono<String> =
               compensationInvocation.apply(input) as Mono<String>
-        }
-      }
-
-      public class MetaMyPortalClass : MetaClass<MyPortal> {
-        private final val myMethod: MetaMyMethod = register(MetaMyMethod(this))
-
-        private final val nameMethod: MetaNameMethod = register(MetaNameMethod(this))
-
-        private final val idMethod: MetaIdMethod = register(MetaIdMethod(this))
-
-        internal constructor() : super(metaType<MyPortal>(MyPortal::class.java))
-
-        public fun myMethod(): MetaMyMethod = myMethod
-
-        public fun nameMethod(): MetaNameMethod = nameMethod
-
-        public fun idMethod(): MetaIdMethod = idMethod
-
-        public override
-            fun proxy(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>):
-            MetaProxy = MetaMyPortalProxy(invocations)
-
-        public companion object {
-          private final val self: LazyProperty<MetaMyPortalClass> =
-              MetaClass.self(MyPortal::class.java)
-
-          public fun myPortal(): MetaMyPortalClass = self.get()
-        }
-
-        public class MetaMyMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, MyCommunicator>
-            {
-          internal constructor(owner: MetaMyPortalClass) :
-              super("my",metaType<MyCommunicator>(MyCommunicator::class.java),owner)
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
-            return instance.my()
-          }
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal): Any? {
-            return instance.my()
-          }
-        }
-
-        public class MetaNameMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, String> {
-          internal constructor(owner: MetaMyPortalClass) :
-              super("name",metaType<String>(String::class.java),owner)
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
-            return instance.name()
-          }
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal): Any? {
-            return instance.name()
-          }
-        }
-
-        public class MetaIdMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, String> {
-          internal constructor(owner: MetaMyPortalClass) :
-              super("id",metaType<String>(String::class.java),owner)
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
-            return instance.id()
-          }
-
-          @Throws(Throwable::class)
-          public override fun invoke(instance: MyPortal): Any? {
-            return instance.id()
-          }
-        }
-
-        public inner class MetaMyPortalProxy : MetaProxy, MyPortal {
-          private final val myInvocation: Function<Any?, Any?>
-
-          private final val nameInvocation: Function<Any?, Any?>
-
-          public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
-              super(invocations) {
-            myInvocation = invocations[myMethod as MetaMethod<MetaClass<*>, *>]!!
-            nameInvocation = invocations[nameMethod as MetaMethod<MetaClass<*>, *>]!!
-          }
-
-          public override fun my(): MyCommunicator = myInvocation.apply(null) as MyCommunicator
-
-          public override fun name(): String = nameInvocation.apply(null) as String
         }
       }
     }
