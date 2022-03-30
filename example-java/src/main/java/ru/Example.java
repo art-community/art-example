@@ -30,7 +30,7 @@ public class Example {
                 .module(yaml())
                 .module(transport())
                 .module(rsocket(rsocket -> rsocket
-                        .server(server -> server.tcp().configure(configurator -> configurator.service(MyService.class)))
+                        .server(server -> server.tcp(MyService.class))
                         .communicator(communicator -> communicator.tcp(MyCommunicator.class))))
                 .module(http(http -> http
                         .server(server -> server.routes(MyService.class))
