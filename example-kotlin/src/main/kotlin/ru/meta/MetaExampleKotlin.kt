@@ -646,9 +646,17 @@ public class MetaExampleKotlin : MetaLibrary {
       public class MetaMyPortalClass : MetaClass<MyPortal> {
         private final val myMethod: MetaMyMethod = register(MetaMyMethod(this))
 
+        private final val nameMethod: MetaNameMethod = register(MetaNameMethod(this))
+
+        private final val idMethod: MetaIdMethod = register(MetaIdMethod(this))
+
         internal constructor() : super(metaType<MyPortal>(MyPortal::class.java))
 
         public fun myMethod(): MetaMyMethod = myMethod
+
+        public fun nameMethod(): MetaNameMethod = nameMethod
+
+        public fun idMethod(): MetaIdMethod = idMethod
 
         public override
             fun proxy(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>):
@@ -677,15 +685,50 @@ public class MetaExampleKotlin : MetaLibrary {
           }
         }
 
+        public class MetaNameMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, String> {
+          internal constructor(owner: MetaMyPortalClass) :
+              super("name",metaType<String>(String::class.java),owner)
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
+            return instance.name()
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyPortal): Any? {
+            return instance.name()
+          }
+        }
+
+        public class MetaIdMethod : InstanceMetaMethod<MetaMyPortalClass, MyPortal, String> {
+          internal constructor(owner: MetaMyPortalClass) :
+              super("id",metaType<String>(String::class.java),owner)
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyPortal, arguments: Array<Any>): Any? {
+            return instance.id()
+          }
+
+          @Throws(Throwable::class)
+          public override fun invoke(instance: MyPortal): Any? {
+            return instance.id()
+          }
+        }
+
         public inner class MetaMyPortalProxy : MetaProxy, MyPortal {
           private final val myInvocation: Function<Any?, Any?>
+
+          private final val nameInvocation: Function<Any?, Any?>
 
           public constructor(invocations: Map<MetaMethod<MetaClass<*>, *>, Function<Any?, Any?>>) :
               super(invocations) {
             myInvocation = invocations[myMethod as MetaMethod<MetaClass<*>, *>]!!
+            nameInvocation = invocations[nameMethod as MetaMethod<MetaClass<*>, *>]!!
           }
 
           public override fun my(): MyCommunicator = myInvocation.apply(null) as MyCommunicator
+
+          public override fun name(): String = nameInvocation.apply(null) as String
         }
       }
     }
