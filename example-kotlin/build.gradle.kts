@@ -1,29 +1,34 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
-    id("art-kotlin-generator")
+    id("art-jvm")
 }
 
-dependencies {
-    implementation("io.art.java:core")
-    implementation("io.art.java:scheduler")
-    implementation("io.art.java:configurator")
-    implementation("io.art.java:server")
-    implementation("io.art.java:communicator")
-    implementation("io.art.java:value")
-    implementation("io.art.java:logging")
-    implementation("io.art.java:launcher")
-    implementation("io.art.java:model")
-    implementation("io.art.java:xml")
-    implementation("io.art.java:rsocket")
-    implementation("io.art.java:http")
-    implementation("io.art.java:json")
-    implementation("io.art.java:protobuf")
-    implementation("io.art.java:message-pack")
-    implementation("io.art.java:yaml")
-    implementation("io.art.java:graal")
-    implementation("io.art.java:rocks-db")
-    implementation("io.art.kotlin:kotlin-extensions")
-    kapt("io.art.kotlin:kotlin-extensions")
-    kapt("io.art.generator:language-kotlin")
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        apiVersion = "1.5"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+art {
+    modules {
+        embedded {
+            kotlin {
+                kit()
+            }
+        }
+    }
+    generator {
+        source("Example") {
+            jvm()
+            modulePackage("ru")
+        }
+    }
+    executable {
+        main("ru.ExampleKt")
+        jar()
+        native()
+    }
 }

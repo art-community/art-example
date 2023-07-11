@@ -1,7 +1,7 @@
 /*
  * ART
  *
- * Copyright 2019-2021 ART
+ * Copyright 2019-2022 ART
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ rootProject.name = "art-example"
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url = uri("https://nexus.art-platform.io/repository/art-gradle-plugins/") }
+        maven { url = uri("https://repsy.io/mvn/antonsh/art-packages/") }
     }
     resolutionStrategy {
         eachPlugin {
@@ -34,10 +34,9 @@ pluginManagement {
     plugins {
         val kotlinVersion: String by settings
         kotlin("jvm") version kotlinVersion
-        kotlin("kapt") version kotlinVersion
     }
 }
 
 
 include("example-java")
-//include("example-kotlin")
+include("example-kotlin")

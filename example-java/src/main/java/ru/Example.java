@@ -1,62 +1,49 @@
 package ru;
 
-import io.art.model.annotation.*;
-import io.art.model.configurator.*;
-import reactor.core.publisher.*;
+import io.art.http.*;
+import io.art.rsocket.*;
 import ru.communicator.*;
-import ru.configuration.*;
+import ru.meta.*;
 import ru.model.*;
 import ru.service.*;
-import static io.art.communicator.module.CommunicatorModule.*;
-import static io.art.launcher.Launcher.*;
-import static io.art.model.configurator.ModuleModelConfigurator.*;
-import static io.art.scheduler.manager.SchedulersManager.*;
-import static java.time.Duration.*;
-import static ru.ExampleProvider.*;
+import static io.art.configurator.module.ConfiguratorActivator.*;
+import static io.art.http.module.HttpActivator.*;
+import static io.art.json.module.JsonActivator.*;
+import static io.art.launcher.Activator.*;
+import static io.art.logging.Logging.*;
+import static io.art.logging.module.LoggingActivator.*;
+import static io.art.message.pack.module.MessagePackActivator.*;
+import static io.art.meta.module.MetaActivator.*;
+import static io.art.rsocket.module.RsocketActivator.*;
+import static io.art.transport.module.TransportActivator.*;
+import static io.art.yaml.module.YamlActivator.*;
 
 public class Example {
-    public static void main(String[] args) {
-        launch(provide());
-    }
-
-    @Configurator
-    public static ModuleModelConfigurator configure() {
-        return module(Example.class)
-                .value(value -> value.mapping(Request.class))
-                .configure(configurator -> configurator.configuration(MyConfig.class))
-                .serve(server -> server.rsocket(MyService.class))
-                .communicate(communicator -> communicator.rsocket(MyClient.class, client -> client
-                        .to(MyService.class)
-                        .decorate((id, communicatorActionBuilder) -> communicatorActionBuilder)
-                        .implement((id, rsocketCommunicatorActionBuilder) -> rsocketCommunicatorActionBuilder)))
-                .onLoad(() -> scheduleFixedRate(() -> {
-                    MyClient communicator = communicator(MyClient.class);
-                    Request request = Request.builder().build();
-                    Mono<Request> mono = Mono.just(request);
-                    Flux<Request> flux = Flux.just(request);
-                    communicator.myMethod6(request);
-//                    communicator.myMethod1();
-//                    communicator.myMethod1();
-//                    communicator.myMethod2(request);
-//                    communicator.myMethod2(request);
-//                    communicator.myMethod2(request);
-//                    communicator.myMethod3(mono);
-//                    communicator.myMethod4(flux);
-//                    communicator.myMethod5();
-//                    communicator.myMethod6(request);
-//                    communicator.myMethod7(mono);
-//                    communicator.myMethod8(flux);
-//                    communicator.myMethod9().block();
-//                    communicator.myMethod10(request).block();
-//                    communicator.myMethod11(mono).block();
-//                    communicator.myMethod12(flux).block();
-//                    communicator.myMethod13().blockFirst();
-//                    communicator.myMethod14(request).blockFirst();
-//                    communicator.myMethod15(mono).blockFirst();
-//                    communicator.myMethod16(flux).blockFirst();
-//                    communicator.myMethod17("test");
-//                    communicator.myMethod18(fixedArrayOf("test"));
-//                    communicator.myMethod19(GenericModel.<String, GenericTypeParameter<String>>deferredExecutor().build());
-                }, ofSeconds(30)));
+    public static void main(String[] arguments) {
+        activator(arguments)
+                .main(Example.class.getSimpleName())
+                .module(meta(MetaExampleJava::new))
+                .module(configurator())
+                .module(logging())
+                .module(messagePack())
+                .module(json())
+                .module(yaml())
+                .module(transport())
+                .module(rsocket(rsocket -> rsocket
+                        .server(server -> server.tcp(MyService.class))
+                        .communicator(communicator -> communicator.tcp(MyCommunicator.class))))
+                .module(http(http -> http
+                        .server(server -> server.routes(MyService.class))
+                        .communicator(communicator -> communicator.connector(MyCommunicator.class))))
+                .onLaunch(() -> {
+                    logger().info(Rsocket.rsocket(MyCommunicator.class)
+                            .myMethod(Model.builder().value("request").build())
+                            .toString());
+                    logger().info(Http.http(MyCommunicator.class)
+                            .getModel()
+                            .toString());
+                })
+                .launch()
+                .block();
     }
 }
