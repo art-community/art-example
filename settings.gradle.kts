@@ -22,7 +22,7 @@ rootProject.name = "art-example"
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url = uri("https://nexus.art-platform.io/repository/art-gradle-plugins/") }
+        maven { url = uri("https://maven.pkg.github.com/art-community/art-packages/") }
     }
     resolutionStrategy {
         eachPlugin {
