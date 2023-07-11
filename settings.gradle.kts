@@ -22,7 +22,7 @@ rootProject.name = "art-example"
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url = uri("https://maven.pkg.github.com/art-community/art-packages/") }
+        maven { url = uri("https://repsy.io/mvn/antonsh/art-packages/") }
     }
     resolutionStrategy {
         eachPlugin {
