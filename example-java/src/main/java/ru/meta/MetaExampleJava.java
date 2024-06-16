@@ -1,6 +1,7 @@
 package ru.meta;
 
 import static io.art.meta.model.MetaType.metaArray;
+import static io.art.meta.model.MetaType.metaEnum;
 import static io.art.meta.model.MetaType.metaType;
 
 import io.art.core.property.LazyProperty;
@@ -32,11 +33,11 @@ public class MetaExampleJava extends MetaLibrary {
   public static final class MetaRuPackage extends MetaPackage {
     private final MetaExampleClass exampleClass = registerClass(new MetaExampleClass());
 
+    private final MetaServicePackage servicePackage = registerPackage(new MetaServicePackage());
+
     private final MetaCommunicatorPackage communicatorPackage = registerPackage(new MetaCommunicatorPackage());
 
     private final MetaModelPackage modelPackage = registerPackage(new MetaModelPackage());
-
-    private final MetaServicePackage servicePackage = registerPackage(new MetaServicePackage());
 
     private MetaRuPackage() {
       super("ru");
@@ -46,16 +47,16 @@ public class MetaExampleJava extends MetaLibrary {
       return exampleClass;
     }
 
+    public MetaServicePackage servicePackage() {
+      return servicePackage;
+    }
+
     public MetaCommunicatorPackage communicatorPackage() {
       return communicatorPackage;
     }
 
     public MetaModelPackage modelPackage() {
       return modelPackage;
-    }
-
-    public MetaServicePackage servicePackage() {
-      return servicePackage;
     }
 
     public static final class MetaExampleClass extends MetaClass<ru.Example> {
@@ -118,6 +119,105 @@ public class MetaExampleJava extends MetaLibrary {
 
         public MetaParameter<java.lang.String[]> argumentsParameter() {
           return argumentsParameter;
+        }
+      }
+    }
+
+    public static final class MetaServicePackage extends MetaPackage {
+      private final MetaMyServiceClass myServiceClass = registerClass(new MetaMyServiceClass());
+
+      private MetaServicePackage() {
+        super("service");
+      }
+
+      public MetaMyServiceClass myServiceClass() {
+        return myServiceClass;
+      }
+
+      public static final class MetaMyServiceClass extends MetaClass<ru.service.MyService> {
+        private static final LazyProperty<MetaMyServiceClass> self = MetaClass.self(ru.service.MyService.class);
+
+        private final MetaConstructorConstructor constructor = registerConstructor(new MetaConstructorConstructor(this));
+
+        private final MetaMyMethodMethod myMethodMethod = registerMethod(new MetaMyMethodMethod(this));
+
+        private final MetaGetModelMethod getModelMethod = registerMethod(new MetaGetModelMethod(this));
+
+        private MetaMyServiceClass() {
+          super(metaType(ru.service.MyService.class));
+        }
+
+        public static MetaMyServiceClass myService() {
+          return self.get();
+        }
+
+        public MetaConstructorConstructor constructor() {
+          return constructor;
+        }
+
+        public MetaMyMethodMethod myMethodMethod() {
+          return myMethodMethod;
+        }
+
+        public MetaGetModelMethod getModelMethod() {
+          return getModelMethod;
+        }
+
+        public final class MetaConstructorConstructor extends MetaConstructor<MetaMyServiceClass, ru.service.MyService> {
+          private MetaConstructorConstructor(MetaMyServiceClass owner) {
+            super(metaType(ru.service.MyService.class),owner);
+          }
+
+          @Override
+          public ru.service.MyService invoke(java.lang.Object[] arguments) throws Throwable {
+            return new ru.service.MyService();
+          }
+
+          @Override
+          public ru.service.MyService invoke() throws Throwable {
+            return new ru.service.MyService();
+          }
+        }
+
+        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
+          private final MetaParameter<ru.model.Model> modelParameter = register(new MetaParameter<>(0, "model",metaType(ru.model.Model.class)));
+
+          private MetaMyMethodMethod(MetaMyServiceClass owner) {
+            super("myMethod",metaType(ru.model.Model.class),owner);
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance,
+              java.lang.Object[] arguments) throws Throwable {
+            return instance.myMethod((ru.model.Model)(arguments[0]));
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance, java.lang.Object argument)
+              throws Throwable {
+            return instance.myMethod((ru.model.Model)(argument));
+          }
+
+          public MetaParameter<ru.model.Model> modelParameter() {
+            return modelParameter;
+          }
+        }
+
+        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
+          private MetaGetModelMethod(MetaMyServiceClass owner) {
+            super("getModel",metaType(ru.model.Model.class),owner);
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance,
+              java.lang.Object[] arguments) throws Throwable {
+            return instance.getModel();
+          }
+
+          @Override
+          public java.lang.Object invoke(ru.service.MyService instance) throws Throwable {
+            return instance.getModel();
+          }
         }
       }
     }
@@ -404,105 +504,6 @@ public class MetaExampleJava extends MetaLibrary {
             public java.lang.Object invoke(ru.model.Model.ModelBuilder instance) throws Throwable {
               return instance.build();
             }
-          }
-        }
-      }
-    }
-
-    public static final class MetaServicePackage extends MetaPackage {
-      private final MetaMyServiceClass myServiceClass = registerClass(new MetaMyServiceClass());
-
-      private MetaServicePackage() {
-        super("service");
-      }
-
-      public MetaMyServiceClass myServiceClass() {
-        return myServiceClass;
-      }
-
-      public static final class MetaMyServiceClass extends MetaClass<ru.service.MyService> {
-        private static final LazyProperty<MetaMyServiceClass> self = MetaClass.self(ru.service.MyService.class);
-
-        private final MetaConstructorConstructor constructor = registerConstructor(new MetaConstructorConstructor(this));
-
-        private final MetaMyMethodMethod myMethodMethod = registerMethod(new MetaMyMethodMethod(this));
-
-        private final MetaGetModelMethod getModelMethod = registerMethod(new MetaGetModelMethod(this));
-
-        private MetaMyServiceClass() {
-          super(metaType(ru.service.MyService.class));
-        }
-
-        public static MetaMyServiceClass myService() {
-          return self.get();
-        }
-
-        public MetaConstructorConstructor constructor() {
-          return constructor;
-        }
-
-        public MetaMyMethodMethod myMethodMethod() {
-          return myMethodMethod;
-        }
-
-        public MetaGetModelMethod getModelMethod() {
-          return getModelMethod;
-        }
-
-        public final class MetaConstructorConstructor extends MetaConstructor<MetaMyServiceClass, ru.service.MyService> {
-          private MetaConstructorConstructor(MetaMyServiceClass owner) {
-            super(metaType(ru.service.MyService.class),owner);
-          }
-
-          @Override
-          public ru.service.MyService invoke(java.lang.Object[] arguments) throws Throwable {
-            return new ru.service.MyService();
-          }
-
-          @Override
-          public ru.service.MyService invoke() throws Throwable {
-            return new ru.service.MyService();
-          }
-        }
-
-        public final class MetaMyMethodMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
-          private final MetaParameter<ru.model.Model> modelParameter = register(new MetaParameter<>(0, "model",metaType(ru.model.Model.class)));
-
-          private MetaMyMethodMethod(MetaMyServiceClass owner) {
-            super("myMethod",metaType(ru.model.Model.class),owner);
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.service.MyService instance,
-              java.lang.Object[] arguments) throws Throwable {
-            return instance.myMethod((ru.model.Model)(arguments[0]));
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.service.MyService instance, java.lang.Object argument)
-              throws Throwable {
-            return instance.myMethod((ru.model.Model)(argument));
-          }
-
-          public MetaParameter<ru.model.Model> modelParameter() {
-            return modelParameter;
-          }
-        }
-
-        public final class MetaGetModelMethod extends InstanceMetaMethod<MetaMyServiceClass, ru.service.MyService, ru.model.Model> {
-          private MetaGetModelMethod(MetaMyServiceClass owner) {
-            super("getModel",metaType(ru.model.Model.class),owner);
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.service.MyService instance,
-              java.lang.Object[] arguments) throws Throwable {
-            return instance.getModel();
-          }
-
-          @Override
-          public java.lang.Object invoke(ru.service.MyService instance) throws Throwable {
-            return instance.getModel();
           }
         }
       }
