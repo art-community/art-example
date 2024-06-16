@@ -11,7 +11,6 @@ import io.art.meta.model.MetaMethod
 import io.art.meta.model.MetaPackage
 import io.art.meta.model.MetaParameter
 import io.art.meta.model.MetaProxy
-import io.art.meta.model.MetaType.metaArray
 import io.art.meta.model.MetaType.metaEnum
 import io.art.meta.model.MetaType.metaType
 import io.art.meta.model.StaticMetaMethod
@@ -38,20 +37,20 @@ import ru.service.MyService
 
 @Suppress("warnings")
 public class MetaExampleKotlin : MetaLibrary {
-  private val ruPackage: MetaRuPackage = register(MetaRuPackage())
+  private val ruPackage: MetaRuPackage = registerPackage(MetaRuPackage())
 
   public constructor(vararg dependencies: MetaLibrary) : super(dependencies)
 
   public fun ruPackage(): MetaRuPackage = ruPackage
 
   public class MetaRuPackage : MetaPackage {
-    private val requestClass: MetaRequestClass = register(MetaRequestClass())
+    private val requestClass: MetaRequestClass = registerClass(MetaRequestClass())
 
-    private val communicatorPackage: MetaCommunicatorPackage = register(MetaCommunicatorPackage())
+    private val communicatorPackage: MetaCommunicatorPackage = registerPackage(MetaCommunicatorPackage())
 
-    private val servicePackage: MetaServicePackage = register(MetaServicePackage())
+    private val servicePackage: MetaServicePackage = registerPackage(MetaServicePackage())
 
-    private val modelPackage: MetaModelPackage = register(MetaModelPackage())
+    private val modelPackage: MetaModelPackage = registerPackage(MetaModelPackage())
 
     internal constructor() : super("ru")
 
@@ -65,13 +64,13 @@ public class MetaExampleKotlin : MetaLibrary {
 
     public class MetaRequestClass : MetaClass<Request> {
       private val `constructor`: MetaConstructorConstructor =
-          register(MetaConstructorConstructor(this))
+          registerConstructor(MetaConstructorConstructor(this))
 
       private val successField: MetaField<MetaRequestClass, String> =
-          register(MetaField("success",metaType<String>(String::class.java),false,this))
+          registerField(MetaField("success",metaType<String>(String::class.java),false,this))
 
       private final val getSuccessMethod: MetaGetSuccessMethod =
-          register(MetaGetSuccessMethod(this))
+          registerMethod(MetaGetSuccessMethod(this))
 
       internal constructor() : super(metaType<Request>(Request::class.java))
 
@@ -121,56 +120,56 @@ public class MetaExampleKotlin : MetaLibrary {
     }
 
     public class MetaCommunicatorPackage : MetaPackage {
-      private val myCommunicatorClass: MetaMyCommunicatorClass = register(MetaMyCommunicatorClass())
+      private val myCommunicatorClass: MetaMyCommunicatorClass = registerClass(MetaMyCommunicatorClass())
 
       internal constructor() : super("communicator")
 
       public fun myCommunicatorClass(): MetaMyCommunicatorClass = myCommunicatorClass
 
       public class MetaMyCommunicatorClass : MetaClass<MyCommunicator> {
-        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod(this))
+        private final val myMethodMethod: MetaMyMethodMethod = registerMethod(MetaMyMethodMethod(this))
 
-        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod(this))
+        private final val getModelMethod: MetaGetModelMethod = registerMethod(MetaGetModelMethod(this))
 
         private final val compensationMethod: MetaCompensationMethod =
-            register(MetaCompensationMethod(this))
+            registerMethod(MetaCompensationMethod(this))
 
-        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod(this))
+        private final val decorateMethod: MetaDecorateMethod = registerMethod(MetaDecorateMethod(this))
 
-        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod(this))
+        private final val useGetMethod: MetaUseGetMethod = registerMethod(MetaUseGetMethod(this))
 
-        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod(this))
+        private final val usePostMethod: MetaUsePostMethod = registerMethod(MetaUsePostMethod(this))
 
-        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod(this))
+        private final val usePutMethod: MetaUsePutMethod = registerMethod(MetaUsePutMethod(this))
 
-        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod(this))
+        private final val usePatchMethod: MetaUsePatchMethod = registerMethod(MetaUsePatchMethod(this))
 
         private final val useOptionsMethod: MetaUseOptionsMethod =
-            register(MetaUseOptionsMethod(this))
+            registerMethod(MetaUseOptionsMethod(this))
 
-        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod(this))
+        private final val useHeadMethod: MetaUseHeadMethod = registerMethod(MetaUseHeadMethod(this))
 
-        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod(this))
+        private final val useWsMethod: MetaUseWsMethod = registerMethod(MetaUseWsMethod(this))
 
         private final val pathParameterMethod: MetaPathParameterMethod =
-            register(MetaPathParameterMethod(this))
+            registerMethod(MetaPathParameterMethod(this))
 
         private final val queryParameterMethod: MetaQueryParameterMethod =
-            register(MetaQueryParameterMethod(this))
+            registerMethod(MetaQueryParameterMethod(this))
 
-        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod(this))
+        private final val headersMethod: MetaHeadersMethod = registerMethod(MetaHeadersMethod(this))
 
-        private final val clientMethod: MetaClientMethod = register(MetaClientMethod(this))
+        private final val clientMethod: MetaClientMethod = registerMethod(MetaClientMethod(this))
 
-        private final val uriMethod: MetaUriMethod = register(MetaUriMethod(this))
+        private final val uriMethod: MetaUriMethod = registerMethod(MetaUriMethod(this))
 
-        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method(this))
+        private final val uri_1Method: MetaUri_1Method = registerMethod(MetaUri_1Method(this))
 
-        private final val inputMethod: MetaInputMethod = register(MetaInputMethod(this))
+        private final val inputMethod: MetaInputMethod = registerMethod(MetaInputMethod(this))
 
-        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod(this))
+        private final val outputMethod: MetaOutputMethod = registerMethod(MetaOutputMethod(this))
 
-        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod(this))
+        private final val cookieMethod: MetaCookieMethod = registerMethod(MetaCookieMethod(this))
 
         internal constructor() : super(metaType<MyCommunicator>(MyCommunicator::class.java))
 
@@ -640,56 +639,56 @@ public class MetaExampleKotlin : MetaLibrary {
     }
 
     public class MetaServicePackage : MetaPackage {
-      private val myServiceClass: MetaMyServiceClass = register(MetaMyServiceClass())
+      private val myServiceClass: MetaMyServiceClass = registerClass(MetaMyServiceClass())
 
       internal constructor() : super("service")
 
       public fun myServiceClass(): MetaMyServiceClass = myServiceClass
 
       public class MetaMyServiceClass : MetaClass<MyService> {
-        private final val myMethodMethod: MetaMyMethodMethod = register(MetaMyMethodMethod(this))
+        private final val myMethodMethod: MetaMyMethodMethod = registerMethod(MetaMyMethodMethod(this))
 
-        private final val getModelMethod: MetaGetModelMethod = register(MetaGetModelMethod(this))
+        private final val getModelMethod: MetaGetModelMethod = registerMethod(MetaGetModelMethod(this))
 
         private final val compensationMethod: MetaCompensationMethod =
-            register(MetaCompensationMethod(this))
+            registerMethod(MetaCompensationMethod(this))
 
-        private final val decorateMethod: MetaDecorateMethod = register(MetaDecorateMethod(this))
+        private final val decorateMethod: MetaDecorateMethod = registerMethod(MetaDecorateMethod(this))
 
-        private final val useGetMethod: MetaUseGetMethod = register(MetaUseGetMethod(this))
+        private final val useGetMethod: MetaUseGetMethod = registerMethod(MetaUseGetMethod(this))
 
-        private final val usePostMethod: MetaUsePostMethod = register(MetaUsePostMethod(this))
+        private final val usePostMethod: MetaUsePostMethod = registerMethod(MetaUsePostMethod(this))
 
-        private final val usePutMethod: MetaUsePutMethod = register(MetaUsePutMethod(this))
+        private final val usePutMethod: MetaUsePutMethod = registerMethod(MetaUsePutMethod(this))
 
-        private final val usePatchMethod: MetaUsePatchMethod = register(MetaUsePatchMethod(this))
+        private final val usePatchMethod: MetaUsePatchMethod = registerMethod(MetaUsePatchMethod(this))
 
         private final val useOptionsMethod: MetaUseOptionsMethod =
-            register(MetaUseOptionsMethod(this))
+            registerMethod(MetaUseOptionsMethod(this))
 
-        private final val useHeadMethod: MetaUseHeadMethod = register(MetaUseHeadMethod(this))
+        private final val useHeadMethod: MetaUseHeadMethod = registerMethod(MetaUseHeadMethod(this))
 
-        private final val useWsMethod: MetaUseWsMethod = register(MetaUseWsMethod(this))
+        private final val useWsMethod: MetaUseWsMethod = registerMethod(MetaUseWsMethod(this))
 
         private final val pathParameterMethod: MetaPathParameterMethod =
-            register(MetaPathParameterMethod(this))
+            registerMethod(MetaPathParameterMethod(this))
 
         private final val queryParameterMethod: MetaQueryParameterMethod =
-            register(MetaQueryParameterMethod(this))
+            registerMethod(MetaQueryParameterMethod(this))
 
-        private final val headersMethod: MetaHeadersMethod = register(MetaHeadersMethod(this))
+        private final val headersMethod: MetaHeadersMethod = registerMethod(MetaHeadersMethod(this))
 
-        private final val clientMethod: MetaClientMethod = register(MetaClientMethod(this))
+        private final val clientMethod: MetaClientMethod = registerMethod(MetaClientMethod(this))
 
-        private final val uriMethod: MetaUriMethod = register(MetaUriMethod(this))
+        private final val uriMethod: MetaUriMethod = registerMethod(MetaUriMethod(this))
 
-        private final val uri_1Method: MetaUri_1Method = register(MetaUri_1Method(this))
+        private final val uri_1Method: MetaUri_1Method = registerMethod(MetaUri_1Method(this))
 
-        private final val inputMethod: MetaInputMethod = register(MetaInputMethod(this))
+        private final val inputMethod: MetaInputMethod = registerMethod(MetaInputMethod(this))
 
-        private final val outputMethod: MetaOutputMethod = register(MetaOutputMethod(this))
+        private final val outputMethod: MetaOutputMethod = registerMethod(MetaOutputMethod(this))
 
-        private final val cookieMethod: MetaCookieMethod = register(MetaCookieMethod(this))
+        private final val cookieMethod: MetaCookieMethod = registerMethod(MetaCookieMethod(this))
 
         internal constructor() : super(metaType<MyService>(MyService::class.java))
 
@@ -1113,7 +1112,7 @@ public class MetaExampleKotlin : MetaLibrary {
     }
 
     public class MetaModelPackage : MetaPackage {
-      private val modelClass: MetaModelClass = register(MetaModelClass())
+      private val modelClass: MetaModelClass = registerClass(MetaModelClass())
 
       internal constructor() : super("model")
 
@@ -1121,12 +1120,12 @@ public class MetaExampleKotlin : MetaLibrary {
 
       public class MetaModelClass : MetaClass<Model> {
         private val `constructor`: MetaConstructorConstructor =
-            register(MetaConstructorConstructor(this))
+            registerConstructor(MetaConstructorConstructor(this))
 
         private val valueField: MetaField<MetaModelClass, Sequence<String>> =
-            register(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false,this))
+            registerField(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false,this))
 
-        private final val getValueMethod: MetaGetValueMethod = register(MetaGetValueMethod(this))
+        private final val getValueMethod: MetaGetValueMethod = registerMethod(MetaGetValueMethod(this))
 
         internal constructor() : super(metaType<Model>(Model::class.java))
 
