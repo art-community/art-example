@@ -4,7 +4,7 @@ ART Example will explain you how to use ART modules together.
 
 ## Badges
 
-[![ART Example Branch](https://github.com/art-community/art-example/actions/workflows/push-branch.yml/badge.svg)](https://github.com/art-community/art-example/actions/workflows/push-branch.yml)
+[![ART Example Branch](https://github.com/art-community/art-example/actions/workflows/push-main.yml/badge.svg)](https://github.com/art-community/art-example/actions/workflows/push-main.yml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/art-community/art-example)
 
 ## Requirements
