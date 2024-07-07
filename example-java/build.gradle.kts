@@ -21,7 +21,6 @@ art {
     executable {
         main("ru.Example")
         jar()
-        native()
     }
 }
 
