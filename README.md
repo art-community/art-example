@@ -25,7 +25,6 @@ unix-like:
 ```bash
 git clone https://github.com/art-community/art-example
 cd art-example
-git checkout experimental
 chmod +x gradlew 
 ./gradlew build-jar-executable
 cd example-kotlin/build/executable
@@ -37,7 +36,6 @@ windows:
 ```bash
 git clone https://github.com/art-community/art-example
 cd art-example
-git checkout experimental
 gradlew build-jar-executable
 cd example-kotlin/build/executable
 java -jar example-kotlin.jar
