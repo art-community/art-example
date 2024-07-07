@@ -11,12 +11,13 @@ import io.art.rsocket.kotlin.rsocket
 import io.art.transport.kotlin.transport
 import io.art.yaml.kotlin.yaml
 import ru.communicator.MyCommunicator
+import ru.meta.MetaExampleKotlin
 import ru.service.MyService
 
 data class Request(val success: String)
 
 fun main() = activator {
-    //meta(::MetaExampleKotlin)
+    meta(::MetaExampleKotlin)
     configurator()
     logging()
     json()

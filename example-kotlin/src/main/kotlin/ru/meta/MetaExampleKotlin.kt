@@ -4,6 +4,7 @@ import io.art.core.`property`.LazyProperty
 import io.art.http.communicator.HttpCommunicationDecorator
 import io.art.meta.model.InstanceMetaMethod
 import io.art.meta.model.MetaClass
+import io.art.meta.model.MetaConstructor
 import io.art.meta.model.MetaField
 import io.art.meta.model.MetaLibrary
 import io.art.meta.model.MetaMethod
@@ -64,6 +65,9 @@ public class MetaExampleKotlin : MetaLibrary {
     public fun modelPackage(): MetaModelPackage = modelPackage
 
     public class MetaRequestClass : MetaClass<Request> {
+      private val `constructor`: MetaConstructorConstructor =
+          registerConstructor(MetaConstructorConstructor(this))
+
       private val successField: MetaField<MetaRequestClass, String> =
           registerField(MetaField("success",metaType<String>(String::class.java),false,this))
 
@@ -71,6 +75,8 @@ public class MetaExampleKotlin : MetaLibrary {
           registerMethod(MetaGetSuccessMethod(this))
 
       internal constructor() : super(metaType<Request>(Request::class.java))
+
+      public fun `constructor`(): MetaConstructorConstructor = constructor
 
       public fun successField(): MetaField<MetaRequestClass, String> = successField
 
@@ -80,6 +86,26 @@ public class MetaExampleKotlin : MetaLibrary {
         private final val self: LazyProperty<MetaRequestClass> = MetaClass.self(Request::class.java)
 
         public fun request(): MetaRequestClass = self.get()
+      }
+
+      public class MetaConstructorConstructor : MetaConstructor<MetaRequestClass, Request> {
+        private val successParameter: MetaParameter<String> = register(MetaParameter(0,
+            "success",metaType<String>(String::class.java)))
+
+        internal constructor(owner: MetaRequestClass) :
+            super(metaType<Request>(Request::class.java),owner)
+
+        @Throws(Throwable::class)
+        override fun invoke(arguments: Array<Any>): Request {
+          return Request(arguments[0] as String)
+        }
+
+        @Throws(Throwable::class)
+        override fun invoke(argument: Any): Request {
+          return Request(argument as String)
+        }
+
+        public fun successParameter(): MetaParameter<String> = successParameter
       }
 
       public class MetaGetSuccessMethod : InstanceMetaMethod<MetaRequestClass, Request, String> {
@@ -607,13 +633,13 @@ public class MetaExampleKotlin : MetaLibrary {
                 MetaMethod<MetaClass<*>, *>]!!
           }
 
-          public override fun myMethod(model: Model): Model = myMethodInvocation.apply(model) as
-              Model
+          public override fun myMethod(model: Model): Model = single<Model>(myMethodInvocation,
+              model)
 
-          public override fun getModel(): Model = getModelInvocation.apply(null) as Model
+          public override fun getModel(): Model = get<Model>(getModelInvocation)
 
           public override fun compensation(input: Flux<String>): Mono<String> =
-              compensationInvocation.apply(input) as Mono<String>
+              single<Mono<String>>(compensationInvocation, input)
         }
       }
     }
@@ -1103,6 +1129,9 @@ public class MetaExampleKotlin : MetaLibrary {
       public fun modelClass(): MetaModelClass = modelClass
 
       public class MetaModelClass : MetaClass<Model> {
+        private val `constructor`: MetaConstructorConstructor =
+            registerConstructor(MetaConstructorConstructor(this))
+
         private val valueField: MetaField<MetaModelClass, Sequence<String>> =
             registerField(MetaField("value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java)),false,this))
 
@@ -1110,6 +1139,8 @@ public class MetaExampleKotlin : MetaLibrary {
             registerMethod(MetaGetValueMethod(this))
 
         internal constructor() : super(metaType<Model>(Model::class.java))
+
+        public fun `constructor`(): MetaConstructorConstructor = constructor
 
         public fun valueField(): MetaField<MetaModelClass, Sequence<String>> = valueField
 
@@ -1119,6 +1150,26 @@ public class MetaExampleKotlin : MetaLibrary {
           private final val self: LazyProperty<MetaModelClass> = MetaClass.self(Model::class.java)
 
           public fun model(): MetaModelClass = self.get()
+        }
+
+        public class MetaConstructorConstructor : MetaConstructor<MetaModelClass, Model> {
+          private val valueParameter: MetaParameter<Sequence<String>> = register(MetaParameter(0,
+              "value",metaType<Sequence<String>>(Sequence::class.java,metaType<String>(String::class.java))))
+
+          internal constructor(owner: MetaModelClass) :
+              super(metaType<Model>(Model::class.java),owner)
+
+          @Throws(Throwable::class)
+          override fun invoke(arguments: Array<Any>): Model {
+            return Model(arguments[0] as Sequence<String>)
+          }
+
+          @Throws(Throwable::class)
+          override fun invoke(argument: Any): Model {
+            return Model(argument as Sequence<String>)
+          }
+
+          public fun valueParameter(): MetaParameter<Sequence<String>> = valueParameter
         }
 
         public class MetaGetValueMethod :
