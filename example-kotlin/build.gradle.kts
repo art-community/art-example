@@ -20,5 +20,6 @@ art {
     executable {
         main("ru.ExampleKt")
         jar()
+        packaging()
     }
 }
